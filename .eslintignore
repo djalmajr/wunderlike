@@ -1,0 +1,8 @@
+*.log
+
+.vscode/
+.idea/
+android/
+ios/
+dist/
+node_modules/

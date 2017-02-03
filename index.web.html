@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Wunderlike</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css" rel="stylesheet" />
+    <style media="screen">
+      html, body {
+        font: 14px "Open Sans", Verdana, Arial, sans-serif;
+      }
+    </style>
+    <script>
+      var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(" OPR/") >= 0,
+        isIE = /*@cc_on!@*/false || !!document.documentMode,
+        isChrome = !!window.chrome && !!window.chrome.webstore;
+
+      window.__BrowserDetection = {
+        // Opera 8.0+
+        isOpera: isOpera,
+        // Firefox 1.0+
+        isFirefox: typeof InstallTrigger !== "undefined",
+        // At least Safari 3+: "[object HTMLElementConstructor]"
+        isSafari: Object.prototype.toString.call(window.HTMLElement).indexOf("Constructor") > 0,
+        // Internet Explorer 6-11
+        isIE: isIE,
+        // Edge 20+
+        isEdge: !isIE && !!window.StyleMedia,
+        // Chrome 1+
+        isChrome: isChrome,
+        // Blink engine detection
+        isBlink: (isChrome || isOpera) && !!window.CSS,
+      };
+    </script>
+  </head>
+  <body>
+    <div id="__wunderlike__"></div>
+  </body>
+</html>
