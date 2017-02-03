@@ -26,7 +26,11 @@
   },
   "settings": {
     "import/resolver": {
-      "babel-root-import": {}
+      "babel-root-import": {},
+      "reactnative": {
+        "extensions": [".native.js"],
+        "moduleDirectory": ["src"]
+      }
     }
   }
 }
