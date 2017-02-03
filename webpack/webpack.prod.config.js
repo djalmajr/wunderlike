@@ -5,15 +5,15 @@ const baseConfig = require('./webpack.base.config');
 
 const GLOBALS = {
   'process.env': {
-    'NODE_ENV': JSON.stringify('production')
+    NODE_ENV: JSON.stringify('production'),
   },
-  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
+  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
 };
 
 module.exports = webpackMerge(baseConfig, {
   devtool: 'cheap-source-map',
   entry: {
-    wunderlike: path.join(__dirname, '../index.web.js'),
+    app: path.join(__dirname, '../index.web.js'),
   },
   output: {
     filename: '[name].min.js',
@@ -37,7 +37,7 @@ module.exports = webpackMerge(baseConfig, {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
-      debug: false
+      debug: false,
     }),
   ],
 });

@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const plugins = [
@@ -41,7 +42,6 @@ module.exports = {
         loaders: [
           'style-loader',
           'css-loader?sourceMap&modules&localIdentName=[name]__[local]__[hash:base64:10]',
-          'autoprefixer-loader',
           'postcss-loader',
           'sass-loader?sourceMap',
         ],
@@ -59,6 +59,9 @@ module.exports = {
       inject: 'body',
     }),
   ],
+  postcss: {
+    defaults: [autoprefixer],
+  },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.web.js'],
     modulesDirectories: ['node_modules', './src'],

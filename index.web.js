@@ -4,7 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 // import configureStore from './store/configure-store';
 import App from './src/app';
 
-const rootEl = document.querySelector('#__wunderlike__');
+const rootEl = document.querySelector('#__wrapper__');
 // const store = configureStore();
 
 const render = (Component) => {

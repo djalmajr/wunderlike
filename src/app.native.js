@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Wunderlike = () => (
+const App = () => (
   <View style={styles.container}>
     <Text style={styles.welcome}>
       Welcome to React Native!
@@ -32,4 +32,4 @@ const Wunderlike = () => (
   </View>
 );
 
-export default Wunderlike;
+export default App;
