@@ -1,4 +1,5 @@
 {
   "presets": ["react-native"],
-  "plugins": [["babel-root-import", { "rootPathSuffix": "src" }]]
+  "plugins": [["babel-root-import", { "rootPathSuffix": "src" }]],
+  "sourceMaps": true
 }
