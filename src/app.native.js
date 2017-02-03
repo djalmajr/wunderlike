@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Message from './message';
 
 const styles = StyleSheet.create({
   container: {
@@ -8,6 +7,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
   },
   welcome: {
     fontSize: 20,
@@ -21,7 +25,10 @@ const Wunderlike = () => (
     <Text style={styles.welcome}>
       Welcome to React Native!!
     </Text>
-    <Message />
+    <Text style={styles.instructions}>
+      Double tap R on your keyboard to reload,{'\n'}
+      Shake or press menu button for dev menu...
+    </Text>
   </View>
 );
 
