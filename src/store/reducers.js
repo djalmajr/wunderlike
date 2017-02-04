@@ -1,16 +1,21 @@
+import faker from 'faker';
+import { v4 } from 'uuid';
+import { times } from 'lodash';
 import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
-import { innerReducer as asyncState } from 'redux-async-initial-state';
 import * as actions from './actions';
 
-const cacheMessage = handleActions({
-  [actions.clearMessage]: () => '',
-  [actions.saveMessage]: (state, { payload }) => payload,
-}, '');
+const _todos = times(3).map(() => ({
+  id: v4(),
+  title: faker.company.catchPhrase(),
+  starred: false,
+  createAt: Date.now(),
+  updateAt: Date.now(),
+}));
 
-const notification = handleActions({
-  [actions.notifyError]: (state, { payload }) => Object.assign({ position: 'br', level: 'error' }, payload),
-  [actions.notifySuccess]: (state, { payload }) => Object.assign({ position: 'br', level: 'success' }, payload),
-}, {});
+const todos = handleActions({
+  [actions.saveTodo]: state => state,
+  [actions.removeTodo]: (state, { payload }) => payload,
+}, _todos);
 
-export default combineReducers({ asyncState, cacheMessage, notification });
+export default combineReducers({ todos });

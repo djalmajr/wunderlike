@@ -19,17 +19,19 @@
     "one-var": "off",
     "import/no-extraneous-dependencies": "off",
     "import/no-unresolved": [1, { "ignore": ["^[~]"] }],
+    "import/prefer-default-export": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "react/forbid-prop-types": "off",
     "react/no-danger": "off",
+    "react/prefer-es6-class": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   },
   "settings": {
     "import/resolver": {
+      "babel-module": {},
       "babel-root-import": {},
       "node": {
-        "extensions": [".js", ".json", ".android.js", ".ios.js", ".native.js"],
-        "moduleDirectory": ["src"]
+        "extensions": [".js", ".json", ".android.js", ".ios.js", ".native.js"]
       }
     }
   }

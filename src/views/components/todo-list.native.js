@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from 'native-base';
-import TodoForm from './form';
+import FormInput from './todo-input';
+import Todo from './todo-item';
 
 const styles = StyleSheet.create({
   btn: {
@@ -19,13 +20,26 @@ const styles = StyleSheet.create({
   },
 });
 
-const Todos = () => (
+const Todos = ({ todos }) => (
   <View style={styles.content}>
-    <TodoForm />
+    <FormInput />
+    <View style={{ flexDirection: 'column-reverse' }}>
+      {todos.map(todo => (
+        <Todo key={todo.id} todo={todo} />
+      ))}
+    </View>
     <Button small transparent style={styles.btn} textStyle={styles.btnText}>
       SHOW COMPLETED TO-DOS
     </Button>
   </View>
 );
+
+Todos.propTypes = {
+  todos: React.PropTypes.array,
+};
+
+Todos.defaultProps = {
+  todos: [],
+};
 
 export default Todos;
