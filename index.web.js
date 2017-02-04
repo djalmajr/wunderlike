@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 // import configureStore from './store/configure-store';
-import App from './src/app';
+import App from './src/views/app';
 
 const rootEl = document.querySelector('#__wrapper__');
 // const store = configureStore();
@@ -19,8 +19,8 @@ const render = (Component) => {
 render(App);
 
 if (module.hot) {
-  module.hot.accept('./src/app', () => {
-    const NextApp = require('./src/app').default;
+  module.hot.accept('./src/views/app', () => {
+    const NextApp = require('./src/views/app').default;
 
     render(NextApp);
   });
