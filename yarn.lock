@@ -2628,6 +2628,10 @@ extsprintf@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
 
+faker@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-3.1.0.tgz#0f908faf4e6ec02524e54a57e432c5c013e08c9f"
+
 falafel@^1.0.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/falafel/-/falafel-1.2.0.tgz#c18d24ef5091174a497f318cd24b026a25cddab4"
@@ -5488,6 +5492,10 @@ react-native-keyboard-aware-scroll-view@0.2.0:
   resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.2.0.tgz#d9a94b358cbf92693750b16b4364d64d70060f20"
   dependencies:
     react-timer-mixin "^0.13.3"
+
+react-native-swipe-list-view@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-swipe-list-view/-/react-native-swipe-list-view-0.3.3.tgz#7517d68a4392beabf54322ca44651c24cb2f99f4"
 
 react-native-vector-icons@^4.0.0:
   version "4.0.0"

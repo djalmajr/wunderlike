@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import SwipeableRow from 'react-native/Libraries/Experimental/SwipeableRow/SwipeableRow';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import { Button } from 'native-base';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import emptyObject from 'fbjs/lib/emptyObject';
 
 const size = 50;
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -51,39 +52,13 @@ const styles = StyleSheet.create({
     color: '#555',
     textDecorationLine: 'line-through',
   },
-  swipeBtns: {
-    alignSelf: 'flex-end',
-    borderRadius: 3,
-    flexDirection: 'row',
-    height: size - 6,
-    overflow: 'hidden',
-    top: 3,
-    width: size * 2,
-  },
-  swipeBtn: {
-    alignItems: 'center',
-    alignSelf: 'center',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  deleteBtn: {
-    backgroundColor: '#ee3229',
-    marginLeft: 6,
-  },
-  editBtn: {
-    backgroundColor: '#0f85d9',
-  },
-  swipeIcon: {
-    color: 'white',
-    fontSize: 24,
-  },
 });
 
 class Todo extends Component {
   static propTypes = {
     todo: React.PropTypes.object.isRequired,
     onOpen: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
+    onSwipe: React.PropTypes.func.isRequired,
     onToggleCompleted: React.PropTypes.func.isRequired,
     onToggleStarred: React.PropTypes.func.isRequired,
   };
@@ -91,7 +66,7 @@ class Todo extends Component {
   static defaultProps = {
     todo: emptyObject,
     onOpen: emptyFunction,
-    onDelete: emptyFunction,
+    onSwipe: emptyFunction,
     onToggleCompleted: emptyFunction,
     onToggleStarred: emptyFunction,
   };
@@ -116,49 +91,14 @@ class Todo extends Component {
     this.props.onToggleStarred();
   };
 
-  handleEdit = () => {
-    this.props.onOpen(this.props.todo);
-  };
-
-  handleDelete = () => {
-    this.props.onDelete(this.props.todo);
-  };
-
-  handleTodoPressed = () => {
+  handlePressed = () => {
     // if (this.props.todo.id === store.openId) { return store.setOpenId(null); }
 
     this.props.onOpen(this.props.todo);
   };
 
-  handleShowAlert = () => {
-    const message = `"${this.props.todo.title}" will be deleted forever.`;
-    const options = [
-      { text: 'No', style: 'cancel' },
-      { text: 'Delete', style: 'destructive', onPress: this.handleDelete },
-    ];
-
-    Alert.alert('Delete To-do', message, options);
-  };
-
-  renderSlideoutView() {
-    return (
-      <View style={styles.swipeBtns}>
-        <Button
-          transparent
-          style={[styles.swipeBtn, styles.editBtn]}
-          onPress={this.handleEdit}
-        >
-          <IonIcon name="ios-create-outline" style={styles.swipeIcon} />
-        </Button>
-        <Button
-          transparent
-          style={[styles.swipeBtn, styles.deleteBtn]}
-          onPress={this.handleShowAlert}
-        >
-          <IonIcon name="ios-trash-outline" style={styles.swipeIcon} />
-        </Button>
-      </View>
-    );
+  handleOpen = () => {
+    this.props.onSwipe(this.props.todo);
   }
 
   render() {
@@ -168,19 +108,17 @@ class Todo extends Component {
     return (
       <SwipeableRow
         isOpen={false}
+        maxSwipeDistance={0}
         shouldBounceOnMount={false}
-        swipeThreshold={size / 2}
-        maxSwipeDistance={(size * 2) + 6}
-        slideoutView={(this.renderSlideoutView())}
-        onSwipeEnd={() => 0}
-        onSwipeStart={() => 0}
-        onOpen={() => 0}
+        swipeThreshold={width / 3}
+        slideoutView={<View />}
+        onOpen={this.handleOpen}
       >
         <TouchableHighlight
           underlayColor="#d6eeff"
           activeOpacity={1}
           style={[styles.container, { backgroundColor: 'white' }]}
-          onPress={this.handleTodoPressed}
+          onPress={this.handlePressed}
         >
           <View style={[styles.wrap, { opacity: todo.completed ? 0.75 : 1 }]}>
             <TouchableOpacity

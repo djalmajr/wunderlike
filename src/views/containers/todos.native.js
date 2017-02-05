@@ -26,7 +26,7 @@ const App = ({ todos }) => (
         <Button transparent>
           <IonIcon name="md-arrow-back" color="white" size={26} />
         </Button>
-        <Title>Inbox</Title>
+        <Title>Caixa de Entrada</Title>
         <Button transparent>
           <MdIcon name="sort-by-alpha" color="white" size={22} />
         </Button>

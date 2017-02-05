@@ -53,7 +53,7 @@ class TodoForm extends Component {
             value={todo}
             style={styles.title}
             returnKeyType="done"
-            placeholder="Add a to-do..."
+            placeholder="Adicionar uma tarefa..."
             placeholderTextColor="white"
             onChangeText={text => this.setState({ todo: text })}
           />
