@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Alert, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import SwipeableRow from 'react-native/Libraries/Experimental/SwipeableRow/SwipeableRow';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import { Button } from 'native-base';
+import { DeckSwiper } from 'native-base';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import emptyObject from 'fbjs/lib/emptyObject';
 
@@ -20,6 +19,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
     flexDirection: 'row',
+    position: 'relative',
   },
   btn: {
     height: size,
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Todo extends Component {
+class Todo extends React.Component {
   static propTypes = {
     todo: React.PropTypes.object.isRequired,
     onOpen: React.PropTypes.func.isRequired,
@@ -96,9 +96,14 @@ class Todo extends Component {
     onToggleStarred: emptyFunction,
   };
 
-  state = {
-    pressedIn: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      pressedIn: false,
+      todo: props.todo,
+    };
+  }
 
   handlePressIn = () => {
     this.setState({ pressedIn: true });
@@ -140,71 +145,60 @@ class Todo extends Component {
     Alert.alert('Delete To-do', message, options);
   };
 
-  renderSlideoutView() {
-    return (
-      <View style={styles.swipeBtns}>
-        <Button
-          transparent
-          style={[styles.swipeBtn, styles.editBtn]}
-          onPress={this.handleEdit}
-        >
-          <IonIcon name="ios-create-outline" style={styles.swipeIcon} />
-        </Button>
-        <Button
-          transparent
-          style={[styles.swipeBtn, styles.deleteBtn]}
-          onPress={this.handleShowAlert}
-        >
-          <IonIcon name="ios-trash-outline" style={styles.swipeIcon} />
-        </Button>
-      </View>
-    );
-  }
+  handleSwiping = () => {
+    this.setState({ todo: undefined });
+  };
 
-  render() {
-    const { todo } = this.props;
+  renderItem = (todo) => {
+    if (!todo) {
+      return null;
+    }
+
     const checkmarkVisible = todo.completed || this.state.pressedIn;
 
     return (
-      <SwipeableRow
-        isOpen={false}
-        shouldBounceOnMount={false}
-        swipeThreshold={size / 2}
-        maxSwipeDistance={(size * 2) + 6}
-        slideoutView={(this.renderSlideoutView())}
-        onSwipeEnd={() => 0}
-        onSwipeStart={() => 0}
-        onOpen={() => 0}
+      <TouchableHighlight
+        underlayColor="#d6eeff"
+        activeOpacity={1}
+        style={[styles.container, { backgroundColor: 'white' }]}
+        onPress={this.handleTodoPressed}
       >
-        <TouchableHighlight
-          underlayColor="#d6eeff"
-          activeOpacity={1}
-          style={[styles.container, { backgroundColor: 'white' }]}
-          onPress={this.handleTodoPressed}
-        >
-          <View style={[styles.wrap, { opacity: todo.completed ? 0.75 : 1 }]}>
-            <TouchableOpacity
-              style={styles.btn}
-              activeOpacity={1}
-              onPress={this.handleComplete}
-              onPressIn={this.handleCheckPressIn}
-              onPressOut={this.handleCheckPressOut}
-            >
-              <View style={styles.checkbox}>
-                {checkmarkVisible && <IonIcon name="ios-checkmark-outline" size={28} color="#555" />}
-              </View>
-            </TouchableOpacity>
-            <View style={styles.body}>
-              <Text
-                numberOfLines={1}
-                style={[styles.title, todo.completed && styles.checked]}
-              >
-                {todo.title}
-              </Text>
+        <View style={[styles.wrap, { opacity: todo.completed ? 0.75 : 1 }]}>
+          <TouchableOpacity
+            style={styles.btn}
+            activeOpacity={1}
+            onPress={this.handleComplete}
+            onPressIn={this.handleCheckPressIn}
+            onPressOut={this.handleCheckPressOut}
+          >
+            <View style={styles.checkbox}>
+              {checkmarkVisible && <IonIcon name="ios-checkmark-outline" size={28} color="#555" />}
             </View>
+          </TouchableOpacity>
+          <View style={styles.body}>
+            <Text
+              numberOfLines={1}
+              style={[styles.title, todo.completed && styles.checked]}
+            >
+              {todo.title}
+            </Text>
           </View>
-        </TouchableHighlight>
-      </SwipeableRow>
+        </View>
+      </TouchableHighlight>
+    );
+  };
+
+  render() {
+    const { todo } = this.state;
+
+    return (
+      <View style={{ position: 'relative' }}>
+        <DeckSwiper
+          dataSource={[todo]}
+          renderItem={this.renderItem}
+          onSwiping={this.handleSwiping}
+        />
+      </View>
     );
   }
 }

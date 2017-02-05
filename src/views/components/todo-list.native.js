@@ -35,11 +35,7 @@ const Todos = ({ todos }) => (
 );
 
 Todos.propTypes = {
-  todos: React.PropTypes.array,
-};
-
-Todos.defaultProps = {
-  todos: [],
+  todos: React.PropTypes.array.isRequired,
 };
 
 export default Todos;
