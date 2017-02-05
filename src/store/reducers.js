@@ -9,6 +9,7 @@ const _todos = times(3).map(() => ({
   id: v4(),
   title: faker.company.catchPhrase(),
   starred: false,
+  completed: false,
   createAt: Date.now(),
   updateAt: Date.now(),
 }));
