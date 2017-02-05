@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Input } from 'native-base';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     height: size,
-    lineHeight: 14,
+    lineHeight: 12,
   },
   wrap: {
     flex: 1,
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class TodoForm extends Component {
+class TodoForm extends React.Component {
   state = {
     todo: '',
     starred: false,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Button } from 'native-base';
+import emptyFunction from 'fbjs/lib/emptyFunction';
 import FormInput from './todo-input';
 import Todo from './todo-item';
 
@@ -23,6 +24,17 @@ const styles = StyleSheet.create({
 class Todos extends React.Component {
   static propTypes = {
     todos: React.PropTypes.array.isRequired,
+    onDelete: React.PropTypes.func,
+    onEdit: React.PropTypes.func,
+    onToggleCompleted: React.PropTypes.func,
+    onToggleStarred: React.PropTypes.func,
+  };
+
+  static defaultProps = {
+    onDelete: emptyFunction,
+    onEdit: emptyFunction,
+    onToggleCompleted: emptyFunction,
+    onToggleStarred: emptyFunction,
   };
 
   constructor(props) {
@@ -33,22 +45,23 @@ class Todos extends React.Component {
     };
   }
 
+  componentWillReceiveProps({ todos }) {
+    if (todos !== this.props.todos) {
+      this.setState({ todos });
+    }
+  }
+
   handleItemSwipe = (todo) => {
-    const { todos } = this.state;
     const message = `"${todo.title}" será excluído permanentemente.`;
     const options = [
-      { text: 'Não', style: 'cancel', onPress: this.restoreTodos },
-      { text: 'Excluir', style: 'destructive' },
+      { text: 'Não', style: 'cancel', onPress: () => this.setState({ todos: this.props.todos }) },
+      { text: 'Excluir', style: 'destructive', onPress: () => this.props.onDelete(todo) },
     ];
 
     this.setState(
-      { todos: todos.filter(item => item.id !== todo.id) },
-      () => setTimeout(() => Alert.alert('Excluir Tarefa', message, options), 100),
+      { todos: this.state.todos.filter(item => item.id !== todo.id) },
+      () => setTimeout(() => Alert.alert('Excluir Tarefa?', message, options), 100),
     );
-  }
-
-  restoreTodos = () => {
-    this.setState({ todos: this.props.todos });
   }
 
   render() {
@@ -62,7 +75,10 @@ class Todos extends React.Component {
             <Todo
               key={todo.id}
               todo={todo}
+              onEdit={this.props.onEdit}
               onSwipe={this.handleItemSwipe}
+              onToggleCompleted={this.props.onToggleCompleted}
+              onToggleStarred={this.props.onToggleStarred}
             />
           ))}
         </View>

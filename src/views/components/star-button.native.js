@@ -1,64 +1,63 @@
-import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import { Button } from 'native-base';
+import emptyFunction from 'fbjs/lib/emptyFunction';
 
 const size = 50;
 
 const styles = StyleSheet.create({
   btn: {
-    width: size,
+    alignItems: 'center',
     height: size,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
+    width: size,
   },
   starBg: {
+    backgroundColor: '#d74e48',
     position: 'absolute',
     top: 0,
     left: 13,
     width: 25,
     height: 44,
-    backgroundColor: '#d74e48',
   },
   bottomTriangle: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 0,
     borderBottomWidth: 3,
     borderRightWidth: 12,
     borderLeftWidth: 12,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderBottomColor: 'white',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 0,
   },
 });
 
-export default class extends Component {
-  onStarred() {
-    store.toggleStarred(this.props.todo);
-  }
+const StarButton = ({ starred, onStarred }) => (
+  <Button transparent style={styles.btn} onPress={onStarred}>
+    {starred && (
+      <View style={styles.starBg}>
+        <View style={styles.bottomTriangle} />
+      </View>
+    )}
+    <IonIcon
+      size={20}
+      name={`ios-star${starred ? '' : '-outline'}`}
+      color={starred ? 'white' : '#555'}
+    />
+  </Button>
+);
 
-  render() {
-    const { todo } = this.props;
+StarButton.propTypes = {
+  starred: React.PropTypes.bool.isRequired,
+  onStarred: React.PropTypes.func,
+};
 
-    return (
-      <TouchableOpacity
-        style={styles.btn}
-        activeOpacity={1}
-        onPress={this.onStarred.bind(this)}
-      >
-        {todo.starred && <View style={styles.starBg}>
-          <View style={styles.bottomTriangle} />
-        </View>}
+StarButton.defaultProps = {
+  onStarred: emptyFunction,
+};
 
-        <IonIcon
-          name={`ios-star${todo.starred ? '' : '-outline'}`}
-          size={todo.starred ? 20 : 24}
-          color={todo.starred ? 'white' : '#555'}
-        />
-      </TouchableOpacity>
-    );
-  }
-}
+export default StarButton;

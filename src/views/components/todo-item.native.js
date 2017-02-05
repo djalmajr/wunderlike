@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import { Dimensions, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { Button } from 'native-base';
+import { Dimensions, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import SwipeableRow from 'react-native/Libraries/Experimental/SwipeableRow/SwipeableRow';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import emptyObject from 'fbjs/lib/emptyObject';
+import StarButton from './star-button';
 
 const size = 50;
 
@@ -23,10 +25,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   btn: {
+    alignItems: 'center',
     height: size,
     justifyContent: 'center',
     width: size,
-    alignItems: 'center',
   },
   checkbox: {
     alignItems: 'center',
@@ -39,14 +41,14 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     width: 18,
   },
+  body: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   title: {
     backgroundColor: 'transparent',
     color: '#111',
     fontSize: 16,
-  },
-  body: {
-    flex: 1,
-    justifyContent: 'center',
   },
   checked: {
     color: '#555',
@@ -54,10 +56,10 @@ const styles = StyleSheet.create({
   },
 });
 
-class Todo extends Component {
+class Todo extends React.Component {
   static propTypes = {
     todo: React.PropTypes.object.isRequired,
-    onOpen: React.PropTypes.func.isRequired,
+    onEdit: React.PropTypes.func.isRequired,
     onSwipe: React.PropTypes.func.isRequired,
     onToggleCompleted: React.PropTypes.func.isRequired,
     onToggleStarred: React.PropTypes.func.isRequired,
@@ -71,30 +73,18 @@ class Todo extends Component {
     onToggleStarred: emptyFunction,
   };
 
-  state = {
-    pressedIn: false,
-  };
-
-  handlePressIn = () => {
-    this.setState({ pressedIn: true });
-  };
-
-  handlePressOut = () => {
-    this.setState({ pressedIn: false });
-  };
-
   handleComplete = () => {
     this.props.onToggleCompleted(this.props.todo);
   };
 
   handleStarred = () => {
-    this.props.onToggleStarred();
+    this.props.onToggleStarred(this.props.todo);
   };
 
-  handlePressed = () => {
+  handleEdit = () => {
     // if (this.props.todo.id === store.openId) { return store.setOpenId(null); }
 
-    this.props.onOpen(this.props.todo);
+    this.props.onEdit(this.props.todo);
   };
 
   handleOpen = () => {
@@ -103,7 +93,7 @@ class Todo extends Component {
 
   render() {
     const { todo } = this.props;
-    const checkmarkVisible = todo.completed || this.state.pressedIn;
+    const checkmarkVisible = todo.completed;
 
     return (
       <SwipeableRow
@@ -117,21 +107,19 @@ class Todo extends Component {
         <TouchableHighlight
           underlayColor="#d6eeff"
           activeOpacity={1}
-          style={[styles.container, { backgroundColor: 'white' }]}
-          onPress={this.handlePressed}
+          style={styles.container}
+          onPress={this.handleEdit}
         >
           <View style={[styles.wrap, { opacity: todo.completed ? 0.75 : 1 }]}>
-            <TouchableOpacity
+            <Button
+              transparent
               style={styles.btn}
-              activeOpacity={1}
               onPress={this.handleComplete}
-              onPressIn={this.handleCheckPressIn}
-              onPressOut={this.handleCheckPressOut}
             >
               <View style={styles.checkbox}>
                 {checkmarkVisible && <IonIcon name="ios-checkmark-outline" size={28} color="#555" />}
               </View>
-            </TouchableOpacity>
+            </Button>
             <View style={styles.body}>
               <Text
                 numberOfLines={1}
@@ -140,6 +128,7 @@ class Todo extends Component {
                 {todo.title}
               </Text>
             </View>
+            <StarButton starred={todo.starred} />
           </View>
         </TouchableHighlight>
       </SwipeableRow>
