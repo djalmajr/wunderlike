@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const StarButton = ({ starred, onStarred }) => (
+const TodoItemStar = ({ starred, onStarred }) => (
   <Button transparent style={styles.btn} onPress={onStarred}>
     {starred && (
       <View style={styles.starBg}>
@@ -51,13 +51,13 @@ const StarButton = ({ starred, onStarred }) => (
   </Button>
 );
 
-StarButton.propTypes = {
+TodoItemStar.propTypes = {
   starred: React.PropTypes.bool.isRequired,
   onStarred: React.PropTypes.func,
 };
 
-StarButton.defaultProps = {
+TodoItemStar.defaultProps = {
   onStarred: emptyFunction,
 };
 
-export default StarButton;
+export default TodoItemStar;

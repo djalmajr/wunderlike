@@ -2,8 +2,8 @@ import React from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Button } from 'native-base';
 import emptyFunction from 'fbjs/lib/emptyFunction';
-import FormInput from './todo-input';
-import Todo from './todo-item';
+import TodoInput from './todo-list-input';
+import TodoItem from './todo-item';
 
 const styles = StyleSheet.create({
   btn: {
@@ -21,9 +21,10 @@ const styles = StyleSheet.create({
   },
 });
 
-class Todos extends React.Component {
+class TodoList extends React.Component {
   static propTypes = {
-    todos: React.PropTypes.array.isRequired,
+    completedTodos: React.PropTypes.array.isRequired,
+    incompletedTodos: React.PropTypes.array.isRequired,
     onDelete: React.PropTypes.func,
     onEdit: React.PropTypes.func,
     onToggleCompleted: React.PropTypes.func,
@@ -41,38 +42,45 @@ class Todos extends React.Component {
     super(props);
 
     this.state = {
-      todos: props.todos,
+      completedTodos: props.completedTodos,
+      incompletedTodos: props.incompletedTodos,
     };
   }
 
-  componentWillReceiveProps({ todos }) {
-    if (todos !== this.props.todos) {
-      this.setState({ todos });
+  componentWillReceiveProps({ completedTodos, incompletedTodos }) {
+    if (completedTodos !== this.props.completedTodos) {
+      this.setState({ completedTodos });
+    }
+
+    if (incompletedTodos !== this.props.incompletedTodos) {
+      this.setState({ incompletedTodos });
     }
   }
 
   handleItemSwipe = (todo) => {
     const message = `"${todo.title}" será excluído permanentemente.`;
+    const status = todo.completedAt ? 'completed' : 'incompleted';
+    const restore = stats => this.setState({ [`${stats}Todos`]: this.props[`${stats}Todos`] });
     const options = [
-      { text: 'Não', style: 'cancel', onPress: () => this.setState({ todos: this.props.todos }) },
+      { text: 'Não', style: 'cancel', onPress: () => restore(status) },
       { text: 'Excluir', style: 'destructive', onPress: () => this.props.onDelete(todo) },
     ];
 
     this.setState(
-      { todos: this.state.todos.filter(item => item.id !== todo.id) },
+      { [`${status}Todos`]: this.props[`${status}Todos`].filter(item => item.id !== todo.id) },
       () => setTimeout(() => Alert.alert('Excluir Tarefa?', message, options), 100),
     );
   }
 
   render() {
-    const { todos } = this.state;
+    const { completedTodos, incompletedTodos } = this.state;
 
     return (
       <View style={styles.content}>
-        <FormInput />
+        <TodoInput />
         <View style={{ flexDirection: 'column-reverse' }}>
-          {todos.map(todo => (
-            <Todo
+          {incompletedTodos.map(todo => (
+            <TodoItem
               key={todo.id}
               todo={todo}
               onEdit={this.props.onEdit}
@@ -82,12 +90,26 @@ class Todos extends React.Component {
             />
           ))}
         </View>
-        <Button small transparent style={styles.btn} textStyle={styles.btnText}>
-          MOSTRAR TAREFAS CONCLUÍDAS
-        </Button>
+        {!!completedTodos.length && (
+          <Button small transparent style={styles.btn} textStyle={styles.btnText}>
+            MOSTRAR TAREFAS CONCLUÍDAS
+          </Button>
+        )}
+        <View style={{ flexDirection: 'column-reverse' }}>
+          {completedTodos.map(todo => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onEdit={this.props.onEdit}
+              onSwipe={this.handleItemSwipe}
+              onToggleCompleted={this.props.onToggleCompleted}
+              onToggleStarred={this.props.onToggleStarred}
+            />
+          ))}
+        </View>
       </View>
     );
   }
 }
 
-export default Todos;
+export default TodoList;

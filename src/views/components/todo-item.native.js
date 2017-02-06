@@ -5,7 +5,7 @@ import SwipeableRow from 'react-native/Libraries/Experimental/SwipeableRow/Swipe
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import emptyObject from 'fbjs/lib/emptyObject';
-import StarButton from './star-button';
+import TodoItemStar from './todo-item-star';
 
 const size = 50;
 
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Todo extends React.Component {
+class TodoItem extends React.Component {
   static propTypes = {
     todo: React.PropTypes.object.isRequired,
     onEdit: React.PropTypes.func.isRequired,
@@ -93,7 +93,7 @@ class Todo extends React.Component {
 
   render() {
     const { todo } = this.props;
-    const checkmarkVisible = todo.completed;
+    const checkmarkVisible = !!todo.completedAt;
 
     return (
       <SwipeableRow
@@ -110,7 +110,7 @@ class Todo extends React.Component {
           style={styles.container}
           onPress={this.handleEdit}
         >
-          <View style={[styles.wrap, { opacity: todo.completed ? 0.75 : 1 }]}>
+          <View style={[styles.wrap, { opacity: todo.completedAt ? 0.75 : 1 }]}>
             <Button
               transparent
               style={styles.btn}
@@ -123,12 +123,12 @@ class Todo extends React.Component {
             <View style={styles.body}>
               <Text
                 numberOfLines={1}
-                style={[styles.title, todo.completed && styles.checked]}
+                style={[styles.title, todo.completedAt && styles.checked]}
               >
                 {todo.title}
               </Text>
             </View>
-            <StarButton starred={todo.starred} />
+            <TodoItemStar starred={todo.starred} />
           </View>
         </TouchableHighlight>
       </SwipeableRow>
@@ -136,4 +136,4 @@ class Todo extends React.Component {
   }
 }
 
-export default Todo;
+export default TodoItem;

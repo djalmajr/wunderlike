@@ -6,7 +6,7 @@ import EntypoIcon from 'react-native-vector-icons/Entypo';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MdIcon from 'react-native-vector-icons/MaterialIcons';
 import * as selectors from '~/store/selectors';
-import Todos from '../components/todo-list';
+import TodoList from '../components/todo-list';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const App = ({ todos }) => (
+const Todos = ({ completedTodos, incompletedTodos }) => (
   <Image style={styles.background} source={require('~/assets/bg.jpg')}>
     <Container>
       <Header backgroundColor="#668964">
@@ -35,22 +35,25 @@ const App = ({ todos }) => (
         </Button>
       </Header>
       <Content>
-        <Todos todos={todos} />
+        <TodoList completedTodos={completedTodos} incompletedTodos={incompletedTodos} />
       </Content>
     </Container>
   </Image>
 );
 
-App.propTypes = {
-  todos: React.PropTypes.array,
+Todos.propTypes = {
+  completedTodos: React.PropTypes.array,
+  incompletedTodos: React.PropTypes.array,
 };
 
-App.defaultProps = {
-  todos: [],
+Todos.defaultProps = {
+  completedTodos: [],
+  incompletedTodos: [],
 };
 
 const mapStateToProps = state => ({
-  todos: selectors.getTodos(state),
+  completedTodos: selectors.getCompletedTodos(state),
+  incompletedTodos: selectors.getIncompletedTodos(state),
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(Todos);

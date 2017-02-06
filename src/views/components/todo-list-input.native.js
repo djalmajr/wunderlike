@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class TodoForm extends React.Component {
+class TodoListInput extends React.Component {
   state = {
     todo: '',
     starred: false,
@@ -71,4 +71,4 @@ class TodoForm extends React.Component {
   }
 }
 
-export default TodoForm;
+export default TodoListInput;
