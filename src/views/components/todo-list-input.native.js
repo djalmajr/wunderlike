@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { Button, Input } from 'native-base';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const size = 50;
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     backgroundColor: 'rgba(88,141,100,0.85)',
     borderRadius: 2,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-});
+};
 
 class TodoListInput extends React.Component {
   state = {

@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { Button } from 'native-base';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 
 const size = 50;
 
-const styles = StyleSheet.create({
+const styles = {
   btn: {
     alignItems: 'center',
     height: size,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     right: 0,
     height: 0,
   },
-});
+};
 
 const TodoItemStar = ({ starred, onStarred }) => (
   <Button transparent style={styles.btn} onPress={onStarred}>

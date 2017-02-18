@@ -11,7 +11,7 @@ const size = 50;
 
 const { width } = Dimensions.get('window');
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     backgroundColor: 'white',
     borderRadius: 2,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     color: '#555',
     textDecorationLine: 'line-through',
   },
-});
+};
 
 class TodoItem extends React.Component {
   static propTypes = {

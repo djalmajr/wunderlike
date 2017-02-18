@@ -1,11 +1,11 @@
 import React from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
-import { Button } from 'native-base';
+import { Alert, View } from 'react-native';
+import { Button, Text } from 'native-base';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import TodoInput from './todo-list-input';
 import TodoItem from './todo-item';
 
-const styles = StyleSheet.create({
+const styles = {
   btn: {
     alignSelf: 'center',
     backgroundColor: 'rgba(88,141,100,0.85)',
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   content: {
     padding: 10,
   },
-});
+};
 
 class TodoList extends React.Component {
   static propTypes = {
@@ -92,7 +92,7 @@ class TodoList extends React.Component {
         </View>
         {!!completedTodos.length && (
           <Button small transparent style={styles.btn} textStyle={styles.btnText}>
-            MOSTRAR TAREFAS CONCLUÍDAS
+            <Text style={{ color: 'white' }}>MOSTRAR TAREFAS CONCLUÍDAS</Text>
           </Button>
         )}
         <View style={{ flexDirection: 'column-reverse' }}>

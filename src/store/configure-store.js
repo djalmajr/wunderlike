@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import invariant from 'redux-immutable-state-invariant';
-import { DEVELOPMENT } from '~/constants';
+import { DEVELOPMENT } from '../constants';
 import reducers from './reducers';
 import rootSaga from './sagas';
 
