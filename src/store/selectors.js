@@ -1,10 +1,14 @@
-// import _ from 'lodash';
-// import { createSelector } from 'reselect';
+import { filter, values } from 'lodash';
+import { createSelector } from 'reselect';
 
 // const getData = (attr, notDef) => state => get(state[attr], attr, notDef);
 
-export const getCompletedTodos = state =>
-  state.todos.filter(todo => !!todo.completedAt);
+export const getCompletedTodos = createSelector(
+  state => filter(state.todos, todo => !!todo.completedAt),
+  todos => values(todos),
+);
 
-export const getIncompletedTodos = state =>
-  state.todos.filter(todo => !todo.completedAt);
+export const getIncompletedTodos = createSelector(
+  state => filter(state.todos, todo => !todo.completedAt),
+  todos => values(todos),
+);

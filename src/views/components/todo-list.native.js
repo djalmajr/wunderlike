@@ -26,14 +26,14 @@ class TodoList extends React.Component {
     completedTodos: React.PropTypes.array.isRequired,
     incompletedTodos: React.PropTypes.array.isRequired,
     onDelete: React.PropTypes.func,
-    onEdit: React.PropTypes.func,
+    onSave: React.PropTypes.func,
     onToggleCompleted: React.PropTypes.func,
     onToggleStarred: React.PropTypes.func,
   };
 
   static defaultProps = {
     onDelete: emptyFunction,
-    onEdit: emptyFunction,
+    onSave: emptyFunction,
     onToggleCompleted: emptyFunction,
     onToggleStarred: emptyFunction,
   };
@@ -77,13 +77,13 @@ class TodoList extends React.Component {
 
     return (
       <View style={styles.content}>
-        <TodoInput />
+        <TodoInput onSave={this.props.onSave} />
         <View style={{ flexDirection: 'column-reverse' }}>
           {incompletedTodos.map(todo => (
             <TodoItem
               key={todo.id}
               todo={todo}
-              onEdit={this.props.onEdit}
+              onSave={this.props.onSave}
               onSwipe={this.handleItemSwipe}
               onToggleCompleted={this.props.onToggleCompleted}
               onToggleStarred={this.props.onToggleStarred}
@@ -100,7 +100,7 @@ class TodoList extends React.Component {
             <TodoItem
               key={todo.id}
               todo={todo}
-              onEdit={this.props.onEdit}
+              onSave={this.props.onSave}
               onSwipe={this.handleItemSwipe}
               onToggleCompleted={this.props.onToggleCompleted}
               onToggleStarred={this.props.onToggleStarred}

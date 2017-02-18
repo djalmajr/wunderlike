@@ -59,7 +59,7 @@ const styles = {
 class TodoItem extends React.Component {
   static propTypes = {
     todo: React.PropTypes.object.isRequired,
-    onEdit: React.PropTypes.func.isRequired,
+    onSave: React.PropTypes.func.isRequired,
     onSwipe: React.PropTypes.func.isRequired,
     onToggleCompleted: React.PropTypes.func.isRequired,
     onToggleStarred: React.PropTypes.func.isRequired,
@@ -84,7 +84,7 @@ class TodoItem extends React.Component {
   handleEdit = () => {
     // if (this.props.todo.id === store.openId) { return store.setOpenId(null); }
 
-    this.props.onEdit(this.props.todo);
+    this.props.onSave(this.props.todo);
   };
 
   handleOpen = () => {

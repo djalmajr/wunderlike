@@ -5,6 +5,8 @@ import { Container, Header, Body, Title, Right, Left, Button, Content } from 'na
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MdIcon from 'react-native-vector-icons/MaterialIcons';
+import emptyFunction from 'fbjs/lib/emptyFunction';
+import * as actionCreators from '../../store/actions';
 import * as selectors from '../../store/selectors';
 import TodoList from '../components/todo-list';
 
@@ -19,7 +21,7 @@ const styles = {
   },
 };
 
-const Todos = ({ completedTodos, incompletedTodos }) => (
+const Todos = props => (
   <Image style={styles.background} source={require('../../assets/bg.jpg')}>
     <Container>
       <Header androidStatusBarColor="#3D523C" style={{ backgroundColor: '#668964' }}>
@@ -42,8 +44,10 @@ const Todos = ({ completedTodos, incompletedTodos }) => (
       </Header>
       <Content>
         <TodoList
-          completedTodos={completedTodos}
-          incompletedTodos={incompletedTodos}
+          completedTodos={props.completedTodos}
+          incompletedTodos={props.incompletedTodos}
+          onDelete={props.onDelete}
+          onSave={props.onSave}
         />
       </Content>
     </Container>
@@ -53,11 +57,15 @@ const Todos = ({ completedTodos, incompletedTodos }) => (
 Todos.propTypes = {
   completedTodos: React.PropTypes.array,
   incompletedTodos: React.PropTypes.array,
+  onDelete: React.PropTypes.func,
+  onSave: React.PropTypes.func,
 };
 
 Todos.defaultProps = {
   completedTodos: [],
   incompletedTodos: [],
+  onDelete: emptyFunction,
+  onSave: emptyFunction,
 };
 
 const mapStateToProps = state => ({
@@ -65,4 +73,9 @@ const mapStateToProps = state => ({
   incompletedTodos: selectors.getIncompletedTodos(state),
 });
 
-export default connect(mapStateToProps)(Todos);
+const mapDispatchToProps = dispatch => ({
+  onDelete: todo => dispatch(actionCreators.deleteTodo(todo)),
+  onSave: todo => dispatch(actionCreators.saveTodo(todo)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todos);
