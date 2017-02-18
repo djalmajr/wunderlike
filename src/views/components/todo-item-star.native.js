@@ -36,8 +36,8 @@ const styles = {
   },
 };
 
-const TodoItemStar = ({ starred, onStarred }) => (
-  <Button transparent style={styles.btn} onPress={onStarred}>
+const TodoItemStar = ({ starred, onPress }) => (
+  <Button transparent style={styles.btn} onPress={onPress}>
     {starred && (
       <View style={styles.starBg}>
         <View style={styles.bottomTriangle} />
@@ -53,11 +53,11 @@ const TodoItemStar = ({ starred, onStarred }) => (
 
 TodoItemStar.propTypes = {
   starred: React.PropTypes.bool.isRequired,
-  onStarred: React.PropTypes.func,
+  onPress: React.PropTypes.func,
 };
 
 TodoItemStar.defaultProps = {
-  onStarred: emptyFunction,
+  onPress: emptyFunction,
 };
 
 export default TodoItemStar;

@@ -48,6 +48,8 @@ const Todos = props => (
           incompletedTodos={props.incompletedTodos}
           onDelete={props.onDelete}
           onSave={props.onSave}
+          onToggleCompleted={props.onToggleCompleted}
+          onToggleStarred={props.onToggleStarred}
         />
       </Content>
     </Container>
@@ -59,6 +61,8 @@ Todos.propTypes = {
   incompletedTodos: React.PropTypes.array,
   onDelete: React.PropTypes.func,
   onSave: React.PropTypes.func,
+  onToggleCompleted: React.PropTypes.func,
+  onToggleStarred: React.PropTypes.func,
 };
 
 Todos.defaultProps = {
@@ -66,6 +70,8 @@ Todos.defaultProps = {
   incompletedTodos: [],
   onDelete: emptyFunction,
   onSave: emptyFunction,
+  onToggleCompleted: emptyFunction,
+  onToggleStarred: emptyFunction,
 };
 
 const mapStateToProps = state => ({
@@ -76,6 +82,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onDelete: todo => dispatch(actionCreators.deleteTodo(todo)),
   onSave: todo => dispatch(actionCreators.saveTodo(todo)),
+  onToggleCompleted: todo => dispatch(actionCreators.toggleCompleted(todo)),
+  onToggleStarred: todo => dispatch(actionCreators.toggleStarred(todo)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);

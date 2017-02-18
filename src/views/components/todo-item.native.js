@@ -84,7 +84,7 @@ class TodoItem extends React.Component {
   handleEdit = () => {
     // if (this.props.todo.id === store.openId) { return store.setOpenId(null); }
 
-    this.props.onSave(this.props.todo);
+    // this.props.onSave(this.props.todo);
   };
 
   handleOpen = () => {
@@ -111,24 +111,17 @@ class TodoItem extends React.Component {
           onPress={this.handleEdit}
         >
           <View style={[styles.wrap, { opacity: todo.completedAt ? 0.75 : 1 }]}>
-            <Button
-              transparent
-              style={styles.btn}
-              onPress={this.handleComplete}
-            >
+            <Button transparent style={styles.btn} onPress={this.handleComplete}>
               <View style={styles.checkbox}>
                 {checkmarkVisible && <IonIcon name="ios-checkmark-outline" size={28} color="#555" />}
               </View>
             </Button>
             <View style={styles.body}>
-              <Text
-                numberOfLines={1}
-                style={[styles.title, todo.completedAt && styles.checked]}
-              >
+              <Text numberOfLines={1} style={[styles.title, todo.completedAt && styles.checked]}>
                 {todo.title}
               </Text>
             </View>
-            <TodoItemStar starred={todo.starred} />
+            <TodoItemStar starred={todo.starred} onPress={this.handleStarred} />
           </View>
         </TouchableHighlight>
       </SwipeableRow>

@@ -21,16 +21,20 @@ times(5).forEach(() => {
 });
 
 const todos = handleActions({
-  [actions.deleteTodo]: (state, { payload: { id } }) => filter(state, t => t.id !== id),
-  [actions.saveTodo]: (state, { payload }) => {
-    if (!payload.id) {
-      payload.id = v4();
-    }
+  [actions.deleteTodo]: (state, { payload: { id } }) =>
+    filter(state, t => t.id !== id),
 
-    return merge({}, state, { [payload.id]: payload });
-  },
-  // [actions.addToCache]: state => state,
-  // [actions.removeFromCache]: (state, { payload }) => payload,
+  [actions.saveTodo]: (state, { payload }) => merge({}, state, {
+    [payload.id]: { ...payload, id: payload.id ? payload.id : v4() },
+  }),
+
+  [actions.toggleCompleted]: (state, { payload }) => merge({}, state, {
+    [payload.id]: { ...payload, completedAt: payload.completedAt ? null : Date.now() },
+  }),
+
+  [actions.toggleStarred]: (state, { payload }) => merge({}, state, {
+    [payload.id]: { ...payload, starred: !payload.starred },
+  }),
 }, _todos);
 
 export default combineReducers({ todos });

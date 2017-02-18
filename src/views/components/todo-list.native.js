@@ -44,6 +44,7 @@ class TodoList extends React.Component {
     this.state = {
       completedTodos: props.completedTodos,
       incompletedTodos: props.incompletedTodos,
+      showCompleted: false,
     };
   }
 
@@ -72,8 +73,12 @@ class TodoList extends React.Component {
     );
   }
 
+  handleToggleVisibleTodos = () => {
+    this.setState({ showCompleted: !this.state.showCompleted });
+  };
+
   render() {
-    const { completedTodos, incompletedTodos } = this.state;
+    const { completedTodos, incompletedTodos, showCompleted } = this.state;
 
     return (
       <View style={styles.content}>
@@ -91,22 +96,32 @@ class TodoList extends React.Component {
           ))}
         </View>
         {!!completedTodos.length && (
-          <Button small transparent style={styles.btn} textStyle={styles.btnText}>
-            <Text style={{ color: 'white' }}>MOSTRAR TAREFAS CONCLUÍDAS</Text>
+          <Button
+            small
+            transparent
+            style={styles.btn}
+            textStyle={styles.btnText}
+            onPress={this.handleToggleVisibleTodos}
+          >
+            <Text style={{ color: 'white' }}>
+              {showCompleted ? 'ESCONDER TAREFAS CONCLUÍDAS' : 'MOSTRAR TAREFAS CONCLUÍDAS'}
+            </Text>
           </Button>
         )}
-        <View style={{ flexDirection: 'column-reverse' }}>
-          {completedTodos.map(todo => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onSave={this.props.onSave}
-              onSwipe={this.handleItemSwipe}
-              onToggleCompleted={this.props.onToggleCompleted}
-              onToggleStarred={this.props.onToggleStarred}
-            />
-          ))}
-        </View>
+        {showCompleted && (
+          <View style={{ flexDirection: 'column-reverse' }}>
+            {completedTodos.map(todo => (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onSave={this.props.onSave}
+                onSwipe={this.handleItemSwipe}
+                onToggleCompleted={this.props.onToggleCompleted}
+                onToggleStarred={this.props.onToggleStarred}
+              />
+            ))}
+          </View>
+        )}
       </View>
     );
   }
