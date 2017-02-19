@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dimensions, Image } from 'react-native';
-import { Container, Header, Body, Title, Right, Left, Button, Content } from 'native-base';
+import { Body, Button, Container, Content, Drawer, Header, Left, Right, Title } from 'native-base';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MdIcon from 'react-native-vector-icons/MaterialIcons';
-import emptyFunction from 'fbjs/lib/emptyFunction';
 import * as actionCreators from '../../store/actions';
 import * as selectors from '../../store/selectors';
 import TodoList from '../components/todo-list';
+import Sidebar from './sidebar';
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,58 +21,92 @@ const styles = {
   },
 };
 
-const Todos = props => (
-  <Image style={styles.background} source={require('../../assets/bg.jpg')}>
-    <Container>
-      <Header androidStatusBarColor="#3D523C" style={{ backgroundColor: '#668964' }}>
-        <Left>
-          <Button transparent>
-            <IonIcon name="md-arrow-back" color="white" size={26} />
-          </Button>
-        </Left>
-        <Body>
-          <Title>Caixa de Entrada</Title>
-        </Body>
-        <Right>
-          <Button transparent>
-            <MdIcon name="sort-by-alpha" color="white" size={22} />
-          </Button>
-          <Button transparent>
-            <EntypoIcon name="dots-three-vertical" color="white" size={16} />
-          </Button>
-        </Right>
-      </Header>
-      <Content>
-        <TodoList
-          completedTodos={props.completedTodos}
-          incompletedTodos={props.incompletedTodos}
-          onDelete={props.onDelete}
-          onSave={props.onSave}
-          onToggleCompleted={props.onToggleCompleted}
-          onToggleStarred={props.onToggleStarred}
-        />
-      </Content>
-    </Container>
-  </Image>
-);
+class Todos extends React.Component {
+  static propTypes = {
+    completedTodos: React.PropTypes.array.isRequired,
+    incompletedTodos: React.PropTypes.array.isRequired,
+    navigator: React.PropTypes.object.isRequired,
+    route: React.PropTypes.object.isRequired,
+    onDelete: React.PropTypes.func.isRequired,
+    onSave: React.PropTypes.func.isRequired,
+    onToggleCompleted: React.PropTypes.func.isRequired,
+    onToggleStarred: React.PropTypes.func.isRequired,
+  };
 
-Todos.propTypes = {
-  completedTodos: React.PropTypes.array,
-  incompletedTodos: React.PropTypes.array,
-  onDelete: React.PropTypes.func,
-  onSave: React.PropTypes.func,
-  onToggleCompleted: React.PropTypes.func,
-  onToggleStarred: React.PropTypes.func,
-};
+  static childContextTypes = {
+    closeDrawer: React.PropTypes.func,
+    openDrawer: React.PropTypes.func,
+  };
 
-Todos.defaultProps = {
-  completedTodos: [],
-  incompletedTodos: [],
-  onDelete: emptyFunction,
-  onSave: emptyFunction,
-  onToggleCompleted: emptyFunction,
-  onToggleStarred: emptyFunction,
-};
+  getChildContext() {
+    return {
+      closeDrawer: this.handleCloseDrawer,
+      openDrawer: this.handleOpenDrawer,
+    };
+  }
+
+  handleCloseDrawer = () => {
+    this.drawer._root.close();
+  };
+
+  handleOpenDrawer = () => {
+    this.drawer._root.open();
+  };
+
+  render() {
+    const {
+      completedTodos,
+      incompletedTodos,
+      navigator,
+      route,
+      onDelete,
+      onSave,
+      onToggleCompleted,
+      onToggleStarred,
+    } = this.props;
+
+    return (
+      <Image style={styles.background} source={require('../../assets/bg.jpg')}>
+        <Drawer
+          ref={(ref) => { this.drawer = ref; }}
+          content={<Sidebar navigator={navigator} route={route} />}
+          onClose={this.handleCloseDrawer}
+        >
+          <Container>
+            <Header androidStatusBarColor="#3D523C" style={{ backgroundColor: '#668964' }}>
+              <Left>
+                <Button transparent onPress={this.handleOpenDrawer}>
+                  <IonIcon name="md-menu" color="white" size={26} />
+                </Button>
+              </Left>
+              <Body>
+                <Title>Caixa de Entrada</Title>
+              </Body>
+              <Right>
+                <Button transparent>
+                  <MdIcon name="sort-by-alpha" color="white" size={22} />
+                </Button>
+                <Button transparent>
+                  <EntypoIcon name="dots-three-vertical" color="white" size={16} />
+                </Button>
+              </Right>
+            </Header>
+            <Content>
+              <TodoList
+                completedTodos={completedTodos}
+                incompletedTodos={incompletedTodos}
+                onDelete={onDelete}
+                onSave={onSave}
+                onToggleCompleted={onToggleCompleted}
+                onToggleStarred={onToggleStarred}
+              />
+            </Content>
+          </Container>
+        </Drawer>
+      </Image>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   completedTodos: selectors.getCompletedTodos(state),
