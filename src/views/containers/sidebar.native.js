@@ -6,7 +6,7 @@ import FontIcon from 'react-native-vector-icons/FontAwesome';
 import MdIcon from 'react-native-vector-icons/MaterialIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import OctIcon from 'react-native-vector-icons/Octicons';
-import Fab from '../components/fab';
+import ActionButton from 'react-native-action-button';
 
 const styles = {
   container: {
@@ -15,10 +15,14 @@ const styles = {
     flexDirection: 'column',
     marginBottom: 25,
   },
+  fabBtnIcon: {
+    color: 'white',
+    fontSize: 20,
+  },
   header: {
     alignItems: 'center',
     backgroundColor: 'whitesmoke',
-    height: 50,
+    height: 56,
     flexDirection: 'row',
     borderColor: '#ddd',
     borderBottomWidth: 1,
@@ -29,7 +33,7 @@ const styles = {
     marginTop: 2,
   },
   headerIcon: {
-    fontSize: 18,
+    fontSize: 22,
     marginTop: 2,
   },
   item: {
@@ -50,6 +54,15 @@ const styles = {
     color: '#777',
     fontSize: 16,
   },
+  shadow: {
+    elevation: 6,
+    shadowOpacity: 0.3,
+    shadowColor: '#000',
+    shadowRadius: 4,
+    shadowOffset: {
+      width: 0, height: 8,
+    },
+  },
 };
 
 const items = times(25).map(id => ({ id, title: 'Lista personalizada' }));
@@ -58,11 +71,11 @@ const Sidebar = () => (
   <View style={styles.container}>
     <View style={styles.header}>
       <FontIcon name="user-circle-o" style={styles.headerUserPic} />
-      <Text style={{ flex: 1 }}>Djalma Júnior</Text>
-      <Button transparent style={{ marginTop: 2 }} onPress={() => 0}>
+      <Text style={{ flex: 1, fontSize: 16 }}>Djalma Júnior</Text>
+      <Button transparent style={{ marginTop: 5 }} onPress={() => 0}>
         <IonIcon name="ios-notifications-outline" style={styles.headerIcon} />
       </Button>
-      <Button transparent style={{ marginTop: 2 }} onPress={() => 0}>
+      <Button transparent style={{ marginTop: 5 }} onPress={() => 0}>
         <IonIcon name="ios-search" style={styles.headerIcon} />
       </Button>
     </View>
@@ -85,15 +98,36 @@ const Sidebar = () => (
         )}
       />
     </Content>
-    <Fab icon="md-add" style={{ backgroundColor: '#2B88D9' }} containerStyle={{ bottom: 10, right: 10 }}>
-      <Button style={{ backgroundColor: '#3B5998' }}>
-        <MdIcon name="format-list-bulleted" style={{ ...styles.itemIcon, color: 'white', fontSize: 19 }} />
-        <Text>Nova Lista</Text>
-      </Button>
-      <Button style={{ backgroundColor: '#34A34F' }}>
-        <OctIcon name="checklist" style={{ ...styles.itemIcon, color: 'white', fontSize: 19 }} />
-      </Button>
-    </Fab>
+    <ActionButton
+      size={56}
+      position="right"
+      bgColor="rgba(255,255,255,0.7)"
+      buttonColor="rgba(43,136,217,1)"
+      icon={<IonIcon name="md-add" style={styles.fabBtnIcon} />}
+    >
+      <ActionButton.Item
+        hideShadow
+        size={48}
+        title="Nova Tarefa"
+        buttonColor="#34A34F"
+        style={styles.shadow}
+        textContainerStyle={{ backgroundColor: '#f5f5f5', borderColor: 'rgba(0,0,0,0.23)' }}
+        onPress={() => 0}
+      >
+        <OctIcon name="checklist" style={styles.fabBtnIcon} />
+      </ActionButton.Item>
+      <ActionButton.Item
+        hideShadow
+        size={48}
+        buttonColor="#3B5998"
+        title="Nova Lista"
+        style={styles.shadow}
+        textContainerStyle={{ backgroundColor: '#f5f5f5', borderColor: 'rgba(0,0,0,0.23)' }}
+        onPress={() => 0}
+      >
+        <MdIcon name="format-list-bulleted" style={styles.fabBtnIcon} />
+      </ActionButton.Item>
+    </ActionButton>
   </View>
 );
 
