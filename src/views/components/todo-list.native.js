@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, View } from 'react-native';
-import { Button, Text } from 'native-base';
+import { Button, List, Text } from 'native-base';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import TodoInput from './todo-list-input';
 import TodoItem from './todo-item';
@@ -77,6 +77,24 @@ class TodoList extends React.Component {
     this.setState({ showCompleted: !this.state.showCompleted });
   };
 
+  renderTodos(todos) {
+    return (
+      <List
+        dataArray={todos}
+        renderRow={todo => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onSave={this.props.onSave}
+            onSwipe={this.handleItemSwipe}
+            onToggleCompleted={this.props.onToggleCompleted}
+            onToggleStarred={this.props.onToggleStarred}
+          />
+        )}
+      />
+    );
+  }
+
   render() {
     const { completedTodos, incompletedTodos, showCompleted } = this.state;
 
@@ -84,42 +102,23 @@ class TodoList extends React.Component {
       <View style={styles.content}>
         <TodoInput onSave={this.props.onSave} />
         <View style={{ flexDirection: 'column-reverse' }}>
-          {incompletedTodos.map(todo => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onSave={this.props.onSave}
-              onSwipe={this.handleItemSwipe}
-              onToggleCompleted={this.props.onToggleCompleted}
-              onToggleStarred={this.props.onToggleStarred}
-            />
-          ))}
+          {this.renderTodos(incompletedTodos)}
         </View>
         {!!completedTodos.length && (
           <Button
             small
             transparent
             style={styles.btn}
-            textStyle={styles.btnText}
             onPress={this.handleToggleVisibleTodos}
           >
-            <Text style={{ color: 'white' }}>
+            <Text style={styles.btnText}>
               {showCompleted ? 'ESCONDER TAREFAS CONCLUÍDAS' : 'MOSTRAR TAREFAS CONCLUÍDAS'}
             </Text>
           </Button>
         )}
         {showCompleted && (
           <View style={{ flexDirection: 'column-reverse' }}>
-            {completedTodos.map(todo => (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                onSave={this.props.onSave}
-                onSwipe={this.handleItemSwipe}
-                onToggleCompleted={this.props.onToggleCompleted}
-                onToggleStarred={this.props.onToggleStarred}
-              />
-            ))}
+            {this.renderTodos(completedTodos)}
           </View>
         )}
       </View>

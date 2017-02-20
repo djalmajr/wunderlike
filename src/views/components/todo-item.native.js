@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from 'native-base';
-import { Dimensions, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Button, ListItem } from 'native-base';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import SwipeableRow from 'react-native/Libraries/Experimental/SwipeableRow/SwipeableRow';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import emptyFunction from 'fbjs/lib/emptyFunction';
@@ -15,14 +15,22 @@ const styles = {
   container: {
     backgroundColor: 'white',
     borderRadius: 2,
-    height: size,
     marginBottom: 1,
     overflow: 'hidden',
   },
+  listItem: {
+    borderWidth: 0,
+    margin: 0,
+    padding: 0,
+    height: size,
+    flex: 1,
+  },
   wrap: {
-    backgroundColor: 'transparent',
     flex: 1,
     flexDirection: 'row',
+  },
+  completed: {
+    opacity: 0.75,
   },
   btn: {
     alignItems: 'center',
@@ -59,7 +67,7 @@ const styles = {
 class TodoItem extends React.Component {
   static propTypes = {
     todo: React.PropTypes.object.isRequired,
-    onSave: React.PropTypes.func.isRequired,
+    // onPress: React.PropTypes.func.isRequired,
     onSwipe: React.PropTypes.func.isRequired,
     onToggleCompleted: React.PropTypes.func.isRequired,
     onToggleStarred: React.PropTypes.func.isRequired,
@@ -67,7 +75,7 @@ class TodoItem extends React.Component {
 
   static defaultProps = {
     todo: emptyObject,
-    onOpen: emptyFunction,
+    onPress: emptyFunction,
     onSwipe: emptyFunction,
     onToggleCompleted: emptyFunction,
     onToggleStarred: emptyFunction,
@@ -81,13 +89,13 @@ class TodoItem extends React.Component {
     this.props.onToggleStarred(this.props.todo);
   };
 
-  handleEdit = () => {
+  handlePress = () => {
     // if (this.props.todo.id === store.openId) { return store.setOpenId(null); }
 
-    // this.props.onSave(this.props.todo);
+    // this.props.onPress(this.props.todo);
   };
 
-  handleOpen = () => {
+  handleSwipe = () => {
     this.props.onSwipe(this.props.todo);
   }
 
@@ -102,28 +110,25 @@ class TodoItem extends React.Component {
         shouldBounceOnMount={false}
         swipeThreshold={width / 3}
         slideoutView={<View />}
-        onOpen={this.handleOpen}
+        onOpen={this.handleSwipe}
       >
-        <TouchableHighlight
-          underlayColor="#d6eeff"
-          activeOpacity={1}
-          style={styles.container}
-          onPress={this.handleEdit}
-        >
-          <View style={[styles.wrap, { opacity: todo.completedAt ? 0.75 : 1 }]}>
-            <Button transparent style={styles.btn} onPress={this.handleComplete}>
-              <View style={styles.checkbox}>
-                {checkmarkVisible && <IonIcon name="ios-checkmark-outline" size={28} color="#555" />}
+        <View style={[styles.container, todo.completedAt && styles.completed]}>
+          <ListItem onPress={this.handlePress} style={styles.listItem}>
+            <View style={styles.wrap}>
+              <Button transparent style={styles.btn} onPress={this.handleComplete}>
+                <View style={styles.checkbox}>
+                  {checkmarkVisible && <IonIcon name="ios-checkmark-outline" size={28} color="#555" />}
+                </View>
+              </Button>
+              <View style={styles.body}>
+                <Text numberOfLines={1} style={[styles.title, todo.completedAt && styles.checked]}>
+                  {todo.title}
+                </Text>
               </View>
-            </Button>
-            <View style={styles.body}>
-              <Text numberOfLines={1} style={[styles.title, todo.completedAt && styles.checked]}>
-                {todo.title}
-              </Text>
+              <TodoItemStar starred={todo.starred} onPress={this.handleStarred} />
             </View>
-            <TodoItemStar starred={todo.starred} onPress={this.handleStarred} />
-          </View>
-        </TouchableHighlight>
+          </ListItem>
+        </View>
       </SwipeableRow>
     );
   }
