@@ -8,7 +8,7 @@ import MdIcon from 'react-native-vector-icons/MaterialIcons';
 import * as actionCreators from '../../store/actions';
 import * as selectors from '../../store/selectors';
 import TodoList from '../components/todo-list';
-import Sidebar from './sidebar';
+import Menu from './menu';
 
 const { width, height } = Dimensions.get('window');
 
@@ -69,7 +69,7 @@ class Todos extends React.Component {
       <Image style={styles.background} source={require('../../assets/bg.jpg')}>
         <Drawer
           ref={(ref) => { this.drawer = ref; }}
-          content={<Sidebar navigator={navigator} route={route} />}
+          content={<Menu navigator={navigator} route={route} />}
           onClose={this.handleCloseDrawer}
         >
           <Container>

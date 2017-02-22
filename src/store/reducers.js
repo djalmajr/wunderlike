@@ -13,7 +13,7 @@ import * as actions from './actions';
 //   updateAt: Date.now(),
 // };
 
-const selectedList = handleActions({
+const selectedListId = handleActions({
   [actions.changeList]: (state, { payload }) => payload,
 }, 'inbox');
 
@@ -36,4 +36,4 @@ const todos = handleActions({
   }),
 }, {});
 
-export default combineReducers({ selectedList, todos });
+export default combineReducers({ selectedListId, todos });
