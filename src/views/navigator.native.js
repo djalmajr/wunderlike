@@ -1,8 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { BackAndroid, Navigator } from 'react-native';
+import * as selectors from '../store/selectors';
 import Todos from './containers/todos';
 
 class AppNavigator extends React.Component {
+  static propTypes = {
+    selectedListId: React.PropTypes.string.isRequired,
+  };
+
   static childContextTypes = {
     addBackButtonListener: React.PropTypes.func,
     removeBackButtonListener: React.PropTypes.func,
@@ -49,13 +55,19 @@ class AppNavigator extends React.Component {
     return false;
   };
 
-  renderScene = (route, navigator) => <Todos {...{ navigator, route }} />;
+  renderScene = (route, navigator) => (
+    <Todos
+      navigator={navigator}
+      route={route}
+      selectedListId={this.props.selectedListId}
+    />
+  );
 
   render() {
     return (
       <Navigator
         ref={el => (this.navigator = el)}
-        initialRoute={{ pathname: 'inbox' }}
+        initialRoute={{ key: 'todos' }}
         renderScene={this.renderScene}
         configureScene={() => Navigator.SceneConfigs.PushFromRight}
       />
@@ -63,4 +75,9 @@ class AppNavigator extends React.Component {
   }
 }
 
-export default AppNavigator;
+
+const mapStateToProps = state => ({
+  selectedListId: selectors.getSelectedListId(state),
+});
+
+export default connect(mapStateToProps)(AppNavigator);

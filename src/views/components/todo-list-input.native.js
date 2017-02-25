@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 } from 'uuid';
 import { View } from 'react-native';
 import { Button, Input } from 'native-base';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -58,7 +59,7 @@ class TodoListInput extends React.Component {
 
   handleSave = () => {
     const { starred, title } = this.state;
-    const data = { starred, title: title.trim() };
+    const data = { id: v4(), starred, title: title.trim() };
 
     if (data.title) {
       this.setState(getInitState(), () => this.props.onSave(data));

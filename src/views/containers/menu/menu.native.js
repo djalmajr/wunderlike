@@ -33,7 +33,7 @@ const styles = {
   },
 };
 
-const Menu = ({ listId, lists }) => (
+const Menu = ({ lists, selectedListId, todosInList }) => (
   <View style={styles.container}>
     <View style={styles.header}>
       <FontIcon name="user-circle-o" style={styles.headerUserPic} />
@@ -47,11 +47,11 @@ const Menu = ({ listId, lists }) => (
     </View>
     <Content style={{ padding: 0 }}>
       <MenuItem
-        badge="25"
+        badge={todosInList.inbox.length}
         color="#2B88D9"
         title="Caixa de Entrada"
         iconName="ios-filing-outline"
-        selected={listId === 'inbox'}
+        selected={selectedListId === 'inbox'}
       />
       <List
         dataArray={lists}
@@ -60,7 +60,7 @@ const Menu = ({ listId, lists }) => (
             key={list.id}
             title={list.title}
             iconName="ios-list"
-            selected={listId === list.id}
+            selected={selectedListId === list.id}
           />
         )}
       />
@@ -78,12 +78,14 @@ Menu.propTypes = {
   // navigator: React.PropTypes.object.isRequired,
   // route: React.PropTypes.object.isRequired,
   lists: React.PropTypes.array.isRequired,
-  listId: React.PropTypes.string.isRequired,
+  todosInList: React.PropTypes.object.isRequired,
+  selectedListId: React.PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   lists: [],
-  listId: selectors.getSelectedListId(state),
+  todosInList: selectors.getTodosInList(state),
+  selectedListId: selectors.getSelectedListId(state),
 });
 
 export default connect(mapStateToProps)(Menu);

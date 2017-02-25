@@ -113,9 +113,9 @@ const mapStateToProps = state => ({
   incompletedTodos: selectors.getIncompletedTodos(state),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, { selectedListId }) => ({
   onDelete: todo => dispatch(actionCreators.deleteTodo(todo)),
-  onSave: todo => dispatch(actionCreators.saveTodo(todo)),
+  onSave: todo => dispatch(actionCreators.saveTodo({ ...todo, listId: selectedListId })),
   onToggleCompleted: todo => dispatch(actionCreators.toggleCompleted(todo)),
   onToggleStarred: todo => dispatch(actionCreators.toggleStarred(todo)),
 });

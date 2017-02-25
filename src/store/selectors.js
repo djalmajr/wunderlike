@@ -7,6 +7,8 @@ export const getTodosByListId = curry((listId, state) =>
   filter(state.todos, todo => todo.listId === listId),
 );
 
+export const getTodosInList = state => state.todosInList;
+
 export const getTodosBySelectedListId = state =>
   getTodosByListId(getSelectedListId(state), state);
 

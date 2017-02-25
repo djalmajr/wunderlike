@@ -54,7 +54,10 @@ const MenuItem = ({ color, selected, ...props }) => {
 };
 
 MenuItem.propTypes = {
-  badge: React.PropTypes.string,
+  badge: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.string,
+  ]),
   badgeStyle: React.PropTypes.object,
   color: React.PropTypes.string,
   iconName: React.PropTypes.string,

@@ -1,5 +1,4 @@
-import { v4 } from 'uuid';
-import { filter, merge } from 'lodash';
+import { omit } from 'lodash';
 import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 import * as actions from './actions';
@@ -18,22 +17,49 @@ const selectedListId = handleActions({
 }, 'inbox');
 
 const todos = handleActions({
-  [actions.deleteTodo]: (state, { payload: { id } }) =>
-    filter(state, t => t.id !== id),
+  [actions.deleteTodo]: (state, { payload }) => omit(state, payload.id),
 
-  [actions.saveTodo]: (state, { payload }) => {
-    payload.id = payload.id || v4();
-
-    return merge({}, state, { [payload.id]: payload });
-  },
-
-  [actions.toggleCompleted]: (state, { payload }) => merge({}, state, {
-    [payload.id]: { ...payload, completedAt: payload.completedAt ? null : Date.now() },
+  [actions.saveTodo]: (state, { payload }) => ({
+    ...state,
+    [payload.id]: payload,
   }),
 
-  [actions.toggleStarred]: (state, { payload }) => merge({}, state, {
-    [payload.id]: { ...payload, starred: !payload.starred },
+  [actions.toggleCompleted]: (state, { payload }) => ({
+    ...state,
+    [payload.id]: {
+      ...payload,
+      completedAt: payload.completedAt ? null : Date.now(),
+    },
+  }),
+
+  [actions.toggleStarred]: (state, { payload }) => ({
+    ...state,
+    [payload.id]: {
+      ...payload,
+      starred: !payload.starred,
+    },
   }),
 }, {});
 
-export default combineReducers({ selectedListId, todos });
+const todosInList = handleActions({
+  [actions.deleteTodo]: (state, { payload: { id, listId } }) => ({
+    ...state,
+    [listId]: state[listId].filter(todoId => todoId !== id),
+  }),
+
+  [actions.saveTodo]: (state, { payload: { id, listId } }) => (
+    state[listId].find(lid => lid === id) ? state : {
+      ...state,
+      [listId]: state[listId].concat([id]),
+    }
+  ),
+
+  [actions.toggleCompleted]: (state, { payload }) => ({
+    ...state,
+    [payload.listId]: payload.completedAt ?
+      state[payload.listId].concat([payload.id]) :
+      state[payload.listId].filter(lid => lid !== payload.id),
+  }),
+}, { inbox: [] });
+
+export default combineReducers({ selectedListId, todos, todosInList });
