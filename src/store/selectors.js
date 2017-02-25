@@ -1,23 +1,28 @@
-import { curry, filter, values } from 'lodash';
-import { createSelector } from 'reselect';
+import { curry, filter, keys, values } from 'lodash/fp';
+import { createSelectorCreator, defaultMemoize } from 'reselect';
+
+const createCustomSelector = createSelectorCreator(
+  defaultMemoize,
+  (a, b) => keys(a).length === keys(b).length,
+);
 
 export const getSelectedListId = state => state.selectedListId;
 
-export const getTodosByListId = curry((listId, state) =>
-  filter(state.todos, todo => todo.listId === listId),
-);
+export const getTodosByListId = curry((listId, state) => (
+  filter(todo => todo.listId === listId)(state.todos)
+));
 
 export const getTodosInList = state => state.todosInList;
 
 export const getTodosBySelectedListId = state =>
   getTodosByListId(getSelectedListId(state), state);
 
-export const getCompletedTodos = createSelector(
-  state => filter(getTodosBySelectedListId(state), todo => !!todo.completedAt),
+export const getCompletedTodos = createCustomSelector(
+  state => filter(todo => !!todo.completedAt)(getTodosBySelectedListId(state)),
   todos => values(todos),
 );
 
-export const getIncompletedTodos = createSelector(
-  state => filter(getTodosBySelectedListId(state), todo => !todo.completedAt),
+export const getIncompletedTodos = createCustomSelector(
+  state => filter(todo => !todo.completedAt)(getTodosBySelectedListId(state)),
   todos => values(todos),
 );

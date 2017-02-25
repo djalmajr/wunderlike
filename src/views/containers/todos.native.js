@@ -5,6 +5,7 @@ import { Body, Button, Container, Content, Drawer, Header, Left, Right, Title } 
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MdIcon from 'react-native-vector-icons/MaterialIcons';
+// import Perf from 'react-native/Libraries/Performance/RCTRenderingPerf';
 import * as actionCreators from '../../store/actions';
 import * as selectors from '../../store/selectors';
 import TodoList from '../components/todo-list';
@@ -44,6 +45,12 @@ class Todos extends React.Component {
       openDrawer: this.handleOpenDrawer,
     };
   }
+
+  // componentDidMount() {
+  //   Perf.toggle();
+  //   Perf.start();
+  //   setTimeout(() => Perf.stop(), 60000);
+  // }
 
   handleCloseDrawer = () => {
     this.drawer._root.close();

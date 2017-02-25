@@ -87,7 +87,6 @@
     "npm-run-all": "^4.0.1",
     "open": "0.0.5",
     "postcss-loader": "^1.2.2",
-    "react-addons-perf": "^15.4.2",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-test-renderer": "~15.4.0-rc.4",
     "redux-immutable-state-invariant": "^1.2.4",
