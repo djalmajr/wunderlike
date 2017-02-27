@@ -31,7 +31,7 @@
       "babel-module": {},
       "babel-root-import": {},
       "node": {
-        "extensions": [".js", ".json", ".android.js", ".ios.js", ".native.js"]
+        "extensions": [".js", ".json", ".android.js", ".ios.js", ".native.js", ".rn.js"]
       }
     }
   }

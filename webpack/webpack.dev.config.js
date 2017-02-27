@@ -3,13 +3,6 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const baseConfig = require('./webpack.base.config');
 
-const GLOBALS = {
-  'process.env': {
-    NODE_ENV: JSON.stringify('development'),
-  },
-  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'true')),
-};
-
 module.exports = webpackMerge(baseConfig, {
   cache: true,
   devtool: 'eval',
@@ -24,7 +17,6 @@ module.exports = webpackMerge(baseConfig, {
     filename: '[name].js',
   },
   plugins: [
-    new webpack.DefinePlugin(GLOBALS),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
   ],

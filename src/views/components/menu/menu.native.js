@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button, Content, List } from 'native-base';
+import { /* Button, */ Content, List } from 'native-base';
 import FontIcon from 'react-native-vector-icons/FontAwesome';
-import IonIcon from 'react-native-vector-icons/Ionicons';
-import * as selectors from '../../../store/selectors';
+// import IonIcon from 'react-native-vector-icons/Ionicons';
 import MenuItem from './menu-item';
 
 const styles = {
@@ -33,34 +31,40 @@ const styles = {
   },
 };
 
-const Menu = ({ lists, selectedListId, todosInList }) => (
+const Menu = ({ currListId, lists, todoIdsInList, onMenuPress }) => (
   <View style={styles.container}>
     <View style={styles.header}>
       <FontIcon name="user-circle-o" style={styles.headerUserPic} />
       <Text style={{ flex: 1, fontSize: 16 }}>Djalma Júnior</Text>
+      {/*
       <Button transparent style={{ marginTop: 5 }} onPress={() => 0}>
         <IonIcon name="ios-notifications-outline" style={styles.headerIcon} />
       </Button>
       <Button transparent style={{ marginTop: 5 }} onPress={() => 0}>
         <IonIcon name="ios-search" style={styles.headerIcon} />
       </Button>
+      */}
     </View>
     <Content style={{ padding: 0 }}>
       <MenuItem
-        badge={todosInList.inbox.length}
+        id="inbox"
         color="#2B88D9"
         title="Caixa de Entrada"
         iconName="ios-filing-outline"
-        selected={selectedListId === 'inbox'}
+        badge={todoIdsInList.inbox.length}
+        selected={currListId === 'inbox'}
+        onPress={onMenuPress}
       />
       <List
         dataArray={lists}
         renderRow={list => (
           <MenuItem
             key={list.id}
+            id={list.id}
             title={list.title}
             iconName="ios-list"
-            selected={selectedListId === list.id}
+            selected={currListId === list.id}
+            onPress={onMenuPress}
           />
         )}
       />
@@ -75,17 +79,10 @@ const Menu = ({ lists, selectedListId, todosInList }) => (
 );
 
 Menu.propTypes = {
-  // navigator: React.PropTypes.object.isRequired,
-  // route: React.PropTypes.object.isRequired,
+  currListId: React.PropTypes.string.isRequired,
   lists: React.PropTypes.array.isRequired,
-  todosInList: React.PropTypes.object.isRequired,
-  selectedListId: React.PropTypes.string.isRequired,
+  todoIdsInList: React.PropTypes.object.isRequired,
+  onMenuPress: React.PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  lists: [],
-  todosInList: selectors.getTodosInList(state),
-  selectedListId: selectors.getSelectedListId(state),
-});
-
-export default connect(mapStateToProps)(Menu);
+export default Menu;

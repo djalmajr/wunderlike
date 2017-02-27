@@ -1,14 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import { BackAndroid, Navigator } from 'react-native';
-import * as selectors from '../store/selectors';
 import Todos from './containers/todos';
 
-class AppNavigator extends React.Component {
-  static propTypes = {
-    selectedListId: React.PropTypes.string.isRequired,
-  };
+const initialRoute = { key: 'todos' };
 
+class Main extends Component {
   static childContextTypes = {
     addBackButtonListener: React.PropTypes.func,
     removeBackButtonListener: React.PropTypes.func,
@@ -28,8 +24,6 @@ class AppNavigator extends React.Component {
   componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
-
-  handlers = [];
 
   handleAddBackButtonListener = (listener) => {
     this.handlers.push(listener);
@@ -55,29 +49,18 @@ class AppNavigator extends React.Component {
     return false;
   };
 
-  renderScene = (route, navigator) => (
-    <Todos
-      navigator={navigator}
-      route={route}
-      selectedListId={this.props.selectedListId}
-    />
-  );
+  handlers = [];
 
   render() {
     return (
       <Navigator
         ref={el => (this.navigator = el)}
-        initialRoute={{ key: 'todos' }}
-        renderScene={this.renderScene}
+        initialRoute={initialRoute}
+        renderScene={(r, nav) => <Todos route={r} navigator={nav} />}
         configureScene={() => Navigator.SceneConfigs.PushFromRight}
       />
     );
   }
 }
 
-
-const mapStateToProps = state => ({
-  selectedListId: selectors.getSelectedListId(state),
-});
-
-export default connect(mapStateToProps)(AppNavigator);
+export default Main;

@@ -2,7 +2,10 @@
   "sourceMaps": true,
   "presets": ["react-native"],
   "plugins": [
-    ["module-alias", [{ "src": "./src", "expose": "~" }]],
-    ["module-resolver", { "root": ["./src"], "alias": { "~": "./src" } }]
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": { "~": "./src" },
+      "extensions": [".native.js", ".rn.js", ".android.js", ".ios.js", ".js"]
+    }]
   ]
 }

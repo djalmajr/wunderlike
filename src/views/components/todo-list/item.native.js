@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Button, ListItem } from 'native-base';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import SwipeableRow from 'react-native/Libraries/Experimental/SwipeableRow/SwipeableRow';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import emptyObject from 'fbjs/lib/emptyObject';
-import TodoItemStar from './todo-item-star';
+import TodoItemStar from './star';
 
 const size = 50;
 
@@ -64,11 +64,11 @@ const styles = {
   },
 };
 
-class TodoItem extends React.Component {
+class TodoItem extends Component {
   static propTypes = {
     todo: React.PropTypes.object.isRequired,
     // onPress: React.PropTypes.func.isRequired,
-    onSwipe: React.PropTypes.func.isRequired,
+    onDelete: React.PropTypes.func.isRequired,
     onToggleCompleted: React.PropTypes.func.isRequired,
     onToggleStarred: React.PropTypes.func.isRequired,
   };
@@ -76,7 +76,7 @@ class TodoItem extends React.Component {
   static defaultProps = {
     todo: emptyObject,
     onPress: emptyFunction,
-    onSwipe: emptyFunction,
+    onDelete: emptyFunction,
     onToggleCompleted: emptyFunction,
     onToggleStarred: emptyFunction,
   };
@@ -90,14 +90,15 @@ class TodoItem extends React.Component {
   };
 
   handlePress = () => {
+    console.log(this.props.todo.id);
     // if (this.props.todo.id === store.openId) { return store.setOpenId(null); }
 
     // this.props.onPress(this.props.todo);
   };
 
   handleSwipe = () => {
-    this.props.onSwipe(this.props.todo);
-  }
+    this.props.onDelete(this.props.todo);
+  };
 
   render() {
     const { todo } = this.props;

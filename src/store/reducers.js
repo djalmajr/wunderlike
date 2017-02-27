@@ -12,54 +12,80 @@ import * as actions from './actions';
 //   updateAt: Date.now(),
 // };
 
-const selectedListId = handleActions({
-  [actions.changeList]: (state, { payload }) => payload,
-}, 'inbox');
+const createListIdReducer = ({ invert } = {}) => {
+  const parse = val => invert ? !val : val;
 
-const todos = handleActions({
-  [actions.deleteTodo]: (state, { payload }) => omit(state, payload.id),
+  return handleActions({
+    [actions.deleteTodo]: (state, { payload: { completedAt, id } }) => (
+      parse(completedAt) && state.indexOf(id) === -1 ? state.concat([id]) : state
+    ),
 
-  [actions.saveTodo]: (state, { payload }) => ({
-    ...state,
-    [payload.id]: payload,
-  }),
+    [actions.saveTodo]: (state, { payload: { completedAt, id } }) => (
+      parse(completedAt) ? state.filter(tid => tid !== id) : state
+    ),
 
-  [actions.toggleCompleted]: (state, { payload }) => ({
-    ...state,
-    [payload.id]: {
-      ...payload,
-      completedAt: payload.completedAt ? null : Date.now(),
-    },
-  }),
+    [actions.toggleCompleted]: (state, { payload: { completedAt, id } }) => (
+      parse(completedAt) ? state.filter(tid => tid !== id) : state.concat([id])
+    ),
+  }, []);
+};
 
-  [actions.toggleStarred]: (state, { payload }) => ({
-    ...state,
-    [payload.id]: {
-      ...payload,
-      starred: !payload.starred,
-    },
-  }),
-}, {});
+export default combineReducers({
+  completedTodoIds: createListIdReducer(),
 
-const todosInList = handleActions({
-  [actions.deleteTodo]: (state, { payload: { id, listId } }) => ({
-    ...state,
-    [listId]: state[listId].filter(todoId => todoId !== id),
-  }),
+  uncompletedTodoIds: createListIdReducer({ invert: true }),
 
-  [actions.saveTodo]: (state, { payload: { id, listId } }) => (
-    state[listId].find(lid => lid === id) ? state : {
+  lists: handleActions({
+    [actions.saveList]: (state, { payload }) => payload,
+  }, []),
+
+  selectedListId: handleActions({
+    [actions.changeList]: (state, { payload }) => payload,
+  }, 'inbox'),
+
+  todos: handleActions({
+    [actions.deleteTodo]: (state, { payload }) => omit(state, payload.id),
+
+    [actions.saveTodo]: (state, { payload }) => ({
       ...state,
-      [listId]: state[listId].concat([id]),
-    }
-  ),
+      [payload.id]: payload,
+    }),
 
-  [actions.toggleCompleted]: (state, { payload }) => ({
-    ...state,
-    [payload.listId]: payload.completedAt ?
-      state[payload.listId].concat([payload.id]) :
-      state[payload.listId].filter(lid => lid !== payload.id),
-  }),
-}, { inbox: [] });
+    [actions.toggleCompleted]: (state, { payload }) => ({
+      ...state,
+      [payload.id]: {
+        ...payload,
+        completedAt: payload.completedAt ? null : Date.now(),
+      },
+    }),
 
-export default combineReducers({ selectedListId, todos, todosInList });
+    [actions.toggleStarred]: (state, { payload }) => ({
+      ...state,
+      [payload.id]: {
+        ...payload,
+        starred: !payload.starred,
+      },
+    }),
+  }, {}),
+
+  todoIdsInList: handleActions({
+    [actions.deleteTodo]: (state, { payload: { id, listId } }) => ({
+      ...state,
+      [listId]: state[listId].filter(todoId => todoId !== id),
+    }),
+
+    [actions.saveTodo]: (state, { payload: { id, listId } }) => (
+      state[listId].find(lid => lid === id) ? state : {
+        ...state,
+        [listId]: state[listId].concat([id]),
+      }
+    ),
+
+    [actions.toggleCompleted]: (state, { payload }) => ({
+      ...state,
+      [payload.listId]: payload.completedAt ?
+        state[payload.listId].concat([payload.id]) :
+        state[payload.listId].filter(lid => lid !== payload.id),
+    }),
+  }, { inbox: [] }),
+});

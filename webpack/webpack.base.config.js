@@ -3,14 +3,24 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const DEV = process.env.NODE_ENV !== 'production';
+
 const plugins = [
   'transform-runtime',
   ['babel-root-import', { rootPathSuffix: 'src' }],
 ];
 
-if (process.env.NODE_ENV !== 'production') {
+if (DEV) {
   plugins.unshift('react-hot-loader/babel');
 }
+
+const GLOBALS = {
+  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || (DEV ? 'true' : 'false'))),
+  __WEB__: true,
+  'process.env': {
+    NODE_ENV: JSON.stringify(DEV ? 'development' : 'production'),
+  },
+};
 
 module.exports = {
   target: 'web',
@@ -49,6 +59,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin(GLOBALS),
     new webpack.NamedModulesPlugin(),
     new webpack.ProvidePlugin({
       fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Fab, Icon } from 'native-base';
 
-class FABtn extends React.Component {
+class FABtn extends Component {
   static propTypes = {
     children: React.PropTypes.node.isRequired,
     direction: React.PropTypes.string,

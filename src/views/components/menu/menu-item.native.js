@@ -35,14 +35,14 @@ const styles = {
   },
 };
 
-const MenuItem = ({ color, selected, ...props }) => {
+const MenuItem = ({ id, color, selected, ...props }) => {
   const badgeStl = [styles.badge, props.badgeStyle, !!color && { color }, selected && { color: 'white' }];
   const textStl = [styles.text, props.textStyle, !!color && { color }, selected && { color: 'white' }];
   const iconStl = [styles.icon, props.iconStyle, !!color && { color }, selected && { color: 'white' }];
 
   return (
     <View style={merge(selected ? styles.selected : {})}>
-      <ListItem style={merge({}, styles.listItem, props.style)} onPress={props.onPress}>
+      <ListItem style={merge({}, styles.listItem, props.style)} onPress={() => props.onPress(id)}>
         <View style={styles.container}>
           <IonIcon name={props.iconName} style={iconStl} />
           <Text style={textStl}>{props.title}</Text>
@@ -62,6 +62,7 @@ MenuItem.propTypes = {
   color: React.PropTypes.string,
   iconName: React.PropTypes.string,
   iconStyle: React.PropTypes.object,
+  id: React.PropTypes.string,
   onPress: React.PropTypes.func,
   selected: React.PropTypes.bool,
   style: React.PropTypes.object,
@@ -75,6 +76,7 @@ MenuItem.defaultProps = {
   color: '',
   iconName: '',
   iconStyle: {},
+  id: '',
   onPress: () => 0,
   selected: false,
   style: {},
