@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { deleteTodo } from '../../../store/actions';
-import { getTodoIdsFromSelectedListByStatus } from '../../../store/selectors';
+import { getTodoIdsFromSelectedList } from '../../../store/selectors';
 import Drawer from '../../components/drawer';
 import Container from '../../components/container';
 import List from '../../components/todo-list';
@@ -12,8 +12,8 @@ import Menu from '../menu';
 
 class TodosContainer extends Component {
   static propTypes = {
-    completedIds: React.PropTypes.array.isRequired,
-    uncompletedIds: React.PropTypes.array.isRequired,
+    completed: React.PropTypes.array.isRequired,
+    uncompleted: React.PropTypes.array.isRequired,
     navigator: React.PropTypes.object.isRequired,
     route: React.PropTypes.object.isRequired,
     onDelete: React.PropTypes.func.isRequired,
@@ -23,34 +23,34 @@ class TodosContainer extends Component {
     super(props);
 
     this.state = {
-      completedIds: props.completedIds,
-      uncompletedIds: props.uncompletedIds,
+      completed: props.completed,
+      uncompleted: props.uncompleted,
     };
   }
 
-  componentWillReceiveProps({ completedIds, uncompletedIds }) {
-    if (completedIds !== this.props.completedIds) {
-      this.setState({ completedIds });
+  componentWillReceiveProps({ completed, uncompleted }) {
+    if (completed !== this.props.completed) {
+      this.setState({ completed });
     }
 
-    if (uncompletedIds !== this.props.uncompletedIds) {
-      this.setState({ uncompletedIds });
+    if (uncompleted !== this.props.uncompleted) {
+      this.setState({ uncompleted });
     }
   }
 
   handleDelete = (todo) => {
-    const message = `"${todo.title}" será excluído permanentemente.`;
-    const status = todo.completedAt ? 'completed' : 'uncompleted';
-    const restore = type => this.setState({ [`${type}Todos`]: this.props[`${type}Todos`] });
-    const options = [
-      { text: 'Não', style: 'cancel', onPress: () => restore(status) },
-      { text: 'Excluir', style: 'destructive', onPress: () => this.props.onDelete(todo) },
-    ];
+    const type = todo.completedAt ? 'completed' : 'uncompleted';
+    const newState = { [type]: this.props[type].filter(tid => tid !== todo.id) };
 
-    this.setState(
-      { [`${status}Todos`]: this.props[`${status}Todos`].filter(item => item.id !== todo.id) },
-      () => setTimeout(() => Alert.alert('Excluir Tarefa?', message, options), 100),
-    );
+    this.setState(newState, () => {
+      const message = `"${todo.title}" será excluído permanentemente.`;
+      const options = [
+        { text: 'Não', style: 'cancel', onPress: () => this.setState({ [type]: this.props[type] }) },
+        { text: 'Excluir', style: 'destructive', onPress: () => this.props.onDelete(todo) },
+      ];
+
+      setTimeout(() => Alert.alert('Excluir Tarefa?', message, options), 100);
+    });
   };
 
   handleMenuPress = () => {
@@ -58,7 +58,7 @@ class TodosContainer extends Component {
   };
 
   render() {
-    const { completedIds, uncompletedIds, navigator, route } = this.props;
+    const { completed, uncompleted, navigator, route } = this.props;
 
     return (
       <Drawer
@@ -67,8 +67,8 @@ class TodosContainer extends Component {
       >
         <Container title="Caixa de Entrada" onMenuPress={this.handleMenuPress}>
           <List
-            completedIds={completedIds}
-            uncompletedIds={uncompletedIds}
+            completedIds={completed}
+            uncompletedIds={uncompleted}
             renderInput={() => <Input />}
             renderItem={id => <Item id={id} onDelete={this.handleDelete} />}
           />
@@ -78,10 +78,7 @@ class TodosContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  completedIds: getTodoIdsFromSelectedListByStatus('completed', state),
-  uncompletedIds: getTodoIdsFromSelectedListByStatus('uncompleted', state),
-});
+const mapStateToProps = state => getTodoIdsFromSelectedList(state);
 
 const mapDispatchToProps = dispatch => ({
   onDelete: todo => dispatch(deleteTodo(todo)),

@@ -3,38 +3,35 @@ import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 import * as actions from './actions';
 
-// {
-//   id,
-//   title: '',
-//   starred: false,
-//   completedAt: null,
-//   createAt: Date.now(),
-//   updateAt: Date.now(),
-// };
+const _getType = completedAt => completedAt ? 'completed' : 'uncompleted';
 
-const createListIdReducer = ({ invert } = {}) => {
-  const parse = val => invert ? !val : val;
+const _removeFromList = (list, { completedAt, id }) => {
+  const type = _getType(completedAt);
 
-  return handleActions({
-    [actions.deleteTodo]: (state, { payload: { completedAt, id } }) => (
-      parse(completedAt) && state.indexOf(id) === -1 ? state.concat([id]) : state
-    ),
+  return { ...list, [type]: list[type].filter(tid => tid !== id) };
+};
 
-    [actions.saveTodo]: (state, { payload: { completedAt, id } }) => (
-      parse(completedAt) ? state.filter(tid => tid !== id) : state
-    ),
+const _saveToList = (list, { completedAt, id }) => {
+  const type = _getType(completedAt);
 
-    [actions.toggleCompleted]: (state, { payload: { completedAt, id } }) => (
-      parse(completedAt) ? state.filter(tid => tid !== id) : state.concat([id])
-    ),
-  }, []);
+  return {
+    ...list,
+    [type]: list[type].indexOf(id) === -1 ? list[type].concat([id]) : list[type],
+  };
+};
+
+const _toggleTodoInList = (list, { completedAt, id }) => {
+  const fnToggle = (condition, type) => condition ?
+    list[type].filter(tid => tid !== id) :
+    list[type].concat([id]);
+
+  return {
+    completed: fnToggle(completedAt, 'completed'),
+    uncompleted: fnToggle(!completedAt, 'uncompleted'),
+  };
 };
 
 export default combineReducers({
-  completedTodoIds: createListIdReducer(),
-
-  uncompletedTodoIds: createListIdReducer({ invert: true }),
-
   lists: handleActions({
     [actions.saveList]: (state, { payload }) => payload,
   }, []),
@@ -69,23 +66,19 @@ export default combineReducers({
   }, {}),
 
   todoIdsInList: handleActions({
-    [actions.deleteTodo]: (state, { payload: { id, listId } }) => ({
+    [actions.deleteTodo]: (state, { payload: { listId, ...todo } }) => ({
       ...state,
-      [listId]: state[listId].filter(todoId => todoId !== id),
+      [listId]: _removeFromList(state[listId], todo),
     }),
 
-    [actions.saveTodo]: (state, { payload: { id, listId } }) => (
-      state[listId].find(lid => lid === id) ? state : {
-        ...state,
-        [listId]: state[listId].concat([id]),
-      }
-    ),
-
-    [actions.toggleCompleted]: (state, { payload }) => ({
+    [actions.saveTodo]: (state, { payload: { listId, ...todo } }) => ({
       ...state,
-      [payload.listId]: payload.completedAt ?
-        state[payload.listId].concat([payload.id]) :
-        state[payload.listId].filter(lid => lid !== payload.id),
+      [listId]: _saveToList(state[listId], todo),
     }),
-  }, { inbox: [] }),
+
+    [actions.toggleCompleted]: (state, { payload: { listId, ...todo } }) => ({
+      ...state,
+      [listId]: _toggleTodoInList(state[listId], todo),
+    }),
+  }, { inbox: { completed: [], uncompleted: [] } }),
 });

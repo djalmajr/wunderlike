@@ -51,7 +51,7 @@ const Menu = ({ currListId, lists, todoIdsInList, onMenuPress }) => (
         color="#2B88D9"
         title="Caixa de Entrada"
         iconName="ios-filing-outline"
-        badge={todoIdsInList.inbox.length}
+        badge={todoIdsInList.inbox.uncompleted.length}
         selected={currListId === 'inbox'}
         onPress={onMenuPress}
       />
