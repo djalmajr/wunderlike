@@ -7,6 +7,12 @@ import emptyFunction from 'fbjs/lib/emptyFunction';
 const size = 50;
 
 const styles = {
+  button: {
+    alignItems: 'center',
+    height: size,
+    justifyContent: 'center',
+    width: size,
+  },
   container: {
     backgroundColor: 'rgba(88,141,100,0.85)',
     borderRadius: 2,
@@ -14,12 +20,6 @@ const styles = {
     height: size,
     marginBottom: 5,
     overflow: 'hidden',
-  },
-  placeholder: {
-    alignItems: 'center',
-    height: size,
-    justifyContent: 'center',
-    width: size,
   },
   title: {
     backgroundColor: 'transparent',
@@ -36,11 +36,7 @@ const styles = {
 
 const TodoInput = ({ starred, title, onChange, onCreate, onToggleStarred }) => (
   <View style={styles.container}>
-    <Button
-      transparent
-      style={{ ...styles.placeholder, paddingTop: 4 }}
-      onPress={onCreate}
-    >
+    <Button transparent style={styles.button} onPress={onCreate}>
       <IonIcon name="ios-add-outline" size={32} color="white" />
     </Button>
     <View style={styles.wrap}>
@@ -54,7 +50,7 @@ const TodoInput = ({ starred, title, onChange, onCreate, onToggleStarred }) => (
         onSubmitEditing={onCreate}
       />
     </View>
-    <Button transparent style={styles.placeholder} onPress={onToggleStarred}>
+    <Button transparent style={styles.button} onPress={onToggleStarred}>
       <IonIcon
         size={20}
         color="white"

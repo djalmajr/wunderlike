@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import MdIcon from 'react-native-vector-icons/MaterialIcons';
 import * as actionCreators from '../../../store/actions';
 import * as selectors from '../../../store/selectors';
 import Drawer from '../../components/drawer';
@@ -53,19 +55,41 @@ class TodosContainer extends Component {
     });
   };
 
-  handleMenuPress = () => {
+  handleIconPress = () => {
     this.drawer.handleOpenDrawer();
   };
 
+  handleSettingsPress = () => {};
+
+  handleSortPress = () => {};
+
   render() {
     const { completedIds, uncompletedIds, navigator, route } = this.props;
+    const actionButtons = [
+      {
+        iconComponent: MdIcon,
+        iconName: 'sort-by-alpha',
+        iconSize: 22,
+        onPress: this.handleSortPress,
+      },
+      {
+        iconComponent: EntypoIcon,
+        iconName: 'dots-three-vertical',
+        iconSize: 16,
+        onPress: this.handleSettingsPress,
+      },
+    ];
 
     return (
       <Drawer
         ref={ref => (this.drawer = ref)}
         menu={<Menu navigator={navigator} route={route} />}
       >
-        <Container title="Caixa de Entrada" onMenuPress={this.handleMenuPress}>
+        <Container
+          title="Caixa de Entrada"
+          actionButtons={actionButtons}
+          onIconPress={this.handleIconPress}
+        >
           <List
             completedIds={completedIds}
             uncompletedIds={uncompletedIds}
