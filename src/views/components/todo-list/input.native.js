@@ -34,12 +34,12 @@ const styles = {
   },
 };
 
-const TodoInput = ({ starred, title, onChange, onSave, onToggleStarred }) => (
+const TodoInput = ({ starred, title, onChange, onCreate, onToggleStarred }) => (
   <View style={styles.container}>
     <Button
       transparent
       style={{ ...styles.placeholder, paddingTop: 4 }}
-      onPress={onSave}
+      onPress={onCreate}
     >
       <IonIcon name="ios-add-outline" size={32} color="white" />
     </Button>
@@ -51,7 +51,7 @@ const TodoInput = ({ starred, title, onChange, onSave, onToggleStarred }) => (
         placeholder="Adicionar uma tarefa..."
         placeholderTextColor="white"
         onChangeText={onChange}
-        onSubmitEditing={onSave}
+        onSubmitEditing={onCreate}
       />
     </View>
     <Button transparent style={styles.placeholder} onPress={onToggleStarred}>
@@ -68,7 +68,7 @@ TodoInput.propTypes = {
   starred: React.PropTypes.bool,
   title: React.PropTypes.string,
   onChange: React.PropTypes.func,
-  onSave: React.PropTypes.func,
+  onCreate: React.PropTypes.func,
   onToggleStarred: React.PropTypes.func,
 };
 
@@ -76,7 +76,7 @@ TodoInput.defaultProps = {
   starred: false,
   title: '',
   onChange: emptyFunction,
-  onSave: emptyFunction,
+  onCreate: emptyFunction,
   onToggleStarred: emptyFunction,
 };
 

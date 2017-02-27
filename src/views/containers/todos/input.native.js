@@ -12,12 +12,12 @@ const getInitState = () => ({ title: '', starred: false });
 class InputContainer extends Component {
   static propTypes = {
     currListId: React.PropTypes.string,
-    onSave: React.PropTypes.func,
+    onCreate: React.PropTypes.func,
   };
 
   static defaultProps = {
     currListId: '',
-    onSave: emptyFunction,
+    onCreate: emptyFunction,
   };
 
   state = getInitState();
@@ -30,13 +30,13 @@ class InputContainer extends Component {
     this.setState({ starred: !this.state.starred });
   };
 
-  handleSave = () => {
-    const { currListId, onSave } = this.props;
+  handleCreate = () => {
+    const { currListId, onCreate } = this.props;
     const { starred, title } = this.state;
     const data = { id: v4(), starred, title: title.trim(), listId: currListId };
 
     if (data.title) {
-      this.setState(getInitState(), () => onSave(data));
+      this.setState(getInitState(), () => onCreate(data));
     } else {
       Toast.show('Informe um texto para uma nova tarefa.');
     }
@@ -49,8 +49,8 @@ class InputContainer extends Component {
       <Input
         starred={starred}
         title={title}
+        onCreate={this.handleCreate}
         onChange={this.handleChange}
-        onSave={this.handleSave}
         onToggleStarred={this.handleStarred}
       />
     );
@@ -62,7 +62,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSave: todo => dispatch(actionCreators.saveTodo(todo)),
+  onCreate: todo => dispatch(actionCreators.createTodo(todo)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputContainer);

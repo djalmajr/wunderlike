@@ -31,7 +31,7 @@ const styles = {
   },
 };
 
-const Menu = ({ currListId, lists, todoIdsInList, onMenuPress }) => (
+const Menu = ({ lists, listsLen, selectedListId, onMenuPress }) => (
   <View style={styles.container}>
     <View style={styles.header}>
       <FontIcon name="user-circle-o" style={styles.headerUserPic} />
@@ -51,8 +51,8 @@ const Menu = ({ currListId, lists, todoIdsInList, onMenuPress }) => (
         color="#2B88D9"
         title="Caixa de Entrada"
         iconName="ios-filing-outline"
-        badge={todoIdsInList.inbox.uncompleted.length}
-        selected={currListId === 'inbox'}
+        badge={listsLen.inbox}
+        selected={selectedListId === 'inbox'}
         onPress={onMenuPress}
       />
       <List
@@ -63,7 +63,8 @@ const Menu = ({ currListId, lists, todoIdsInList, onMenuPress }) => (
             id={list.id}
             title={list.title}
             iconName="ios-list"
-            selected={currListId === list.id}
+            badge={listsLen[list.id]}
+            selected={selectedListId === list.id}
             onPress={onMenuPress}
           />
         )}
@@ -79,9 +80,9 @@ const Menu = ({ currListId, lists, todoIdsInList, onMenuPress }) => (
 );
 
 Menu.propTypes = {
-  currListId: React.PropTypes.string.isRequired,
   lists: React.PropTypes.array.isRequired,
-  todoIdsInList: React.PropTypes.object.isRequired,
+  listsLen: React.PropTypes.object.isRequired,
+  selectedListId: React.PropTypes.string.isRequired,
   onMenuPress: React.PropTypes.func.isRequired,
 };
 

@@ -7,7 +7,7 @@ import Item from '../../components/todo-list/item';
 const ItemContainer = props => (
   <Item
     todo={props.todo}
-    onDelete={props.onDelete}
+    onRemove={props.onRemove}
     onToggleCompleted={props.onToggleCompleted}
     onToggleStarred={props.onToggleStarred}
   />
@@ -15,7 +15,7 @@ const ItemContainer = props => (
 
 ItemContainer.propTypes = {
   todo: React.PropTypes.object.isRequired,
-  onDelete: React.PropTypes.func.isRequired,
+  onRemove: React.PropTypes.func.isRequired,
   onToggleCompleted: React.PropTypes.func.isRequired,
   onToggleStarred: React.PropTypes.func.isRequired,
 };

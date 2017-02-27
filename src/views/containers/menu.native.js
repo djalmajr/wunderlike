@@ -6,8 +6,8 @@ import Menu from '../components/menu';
 class MenuContainer extends Component {
   static propTypes = {
     lists: React.PropTypes.array.isRequired,
-    currListId: React.PropTypes.string.isRequired,
-    todoIdsInList: React.PropTypes.object.isRequired,
+    listsLen: React.PropTypes.object.isRequired,
+    selectedListId: React.PropTypes.string.isRequired,
     // navigator: React.PropTypes.object.isRequired,
     // route: React.PropTypes.object.isRequired,
   };
@@ -25,13 +25,13 @@ class MenuContainer extends Component {
   };
 
   render() {
-    const { currListId, lists, todoIdsInList } = this.props;
+    const { selectedListId, lists, listsLen } = this.props;
 
     return (
       <Menu
         lists={lists}
-        todoIdsInList={todoIdsInList}
-        currListId={currListId}
+        listsLen={listsLen}
+        selectedListId={selectedListId}
         onMenuPress={this.handleMenuPress}
       />
     );
@@ -40,8 +40,8 @@ class MenuContainer extends Component {
 
 const mapStateToProps = state => ({
   lists: selectors.getLists(state),
-  currListId: selectors.getSelectedListId(state),
-  todoIdsInList: selectors.getTodoIdsInList(state),
+  listsLen: selectors.getListsLen(state),
+  selectedListId: selectors.getSelectedListId(state),
 });
 
 export default connect(mapStateToProps)(MenuContainer);

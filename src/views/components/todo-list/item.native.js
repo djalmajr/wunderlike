@@ -68,7 +68,7 @@ class TodoItem extends Component {
   static propTypes = {
     todo: React.PropTypes.object.isRequired,
     // onPress: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired,
+    onRemove: React.PropTypes.func.isRequired,
     onToggleCompleted: React.PropTypes.func.isRequired,
     onToggleStarred: React.PropTypes.func.isRequired,
   };
@@ -76,7 +76,7 @@ class TodoItem extends Component {
   static defaultProps = {
     todo: emptyObject,
     onPress: emptyFunction,
-    onDelete: emptyFunction,
+    onRemove: emptyFunction,
     onToggleCompleted: emptyFunction,
     onToggleStarred: emptyFunction,
   };
@@ -97,7 +97,7 @@ class TodoItem extends Component {
   };
 
   handleSwipe = () => {
-    this.props.onDelete(this.props.todo);
+    this.props.onRemove(this.props.todo);
   };
 
   render() {
