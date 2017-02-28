@@ -1,18 +1,24 @@
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import invariant from 'redux-immutable-state-invariant';
-import { DEVELOPMENT } from '~/constants';
+import { DEVELOPMENT } from '../constants';
 import reducers from './reducers';
 import rootSaga from './sagas';
 
 const configureStore = () => {
-  const middlewares = [createSagaMiddleware()];
+  const sagaMiddleware = createSagaMiddleware();
+  let middlewares = [sagaMiddleware];
 
   if (DEVELOPMENT) {
-    middlewares.push(invariant());
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+
+    middlewares = applyMiddleware(...middlewares.concat([invariant()]));
+    middlewares = composeEnhancers ? composeEnhancers(middlewares) : compose(middlewares);
+  } else {
+    middlewares = applyMiddleware(...middlewares);
   }
 
-  const store = createStore(reducers, applyMiddleware(...middlewares));
+  const store = createStore(reducers, middlewares);
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
@@ -22,7 +28,7 @@ const configureStore = () => {
     });
   }
 
-  middlewares[0].run(rootSaga);
+  sagaMiddleware.run(rootSaga);
 
   return store;
 };

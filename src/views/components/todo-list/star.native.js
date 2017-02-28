@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { Button } from 'native-base';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 
 const size = 50;
 
-const styles = StyleSheet.create({
+const styles = {
   btn: {
     alignItems: 'center',
     height: size,
@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
     right: 0,
     height: 0,
   },
-});
+};
 
-const TodoItemStar = ({ starred, onStarred }) => (
-  <Button transparent style={styles.btn} onPress={onStarred}>
+const TodoItemStar = ({ starred, onPress }) => (
+  <Button transparent style={styles.btn} onPress={onPress}>
     {starred && (
       <View style={styles.starBg}>
         <View style={styles.bottomTriangle} />
@@ -53,11 +53,11 @@ const TodoItemStar = ({ starred, onStarred }) => (
 
 TodoItemStar.propTypes = {
   starred: React.PropTypes.bool.isRequired,
-  onStarred: React.PropTypes.func,
+  onPress: React.PropTypes.func,
 };
 
 TodoItemStar.defaultProps = {
-  onStarred: emptyFunction,
+  onPress: emptyFunction,
 };
 
 export default TodoItemStar;

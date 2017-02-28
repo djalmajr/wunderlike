@@ -3,13 +3,6 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const baseConfig = require('./webpack.base.config');
 
-const GLOBALS = {
-  'process.env': {
-    NODE_ENV: JSON.stringify('production'),
-  },
-  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false')),
-};
-
 module.exports = webpackMerge(baseConfig, {
   devtool: 'cheap-source-map',
   entry: {
@@ -19,7 +12,6 @@ module.exports = webpackMerge(baseConfig, {
     filename: '[name].min.js',
   },
   plugins: [
-    new webpack.DefinePlugin(GLOBALS),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,

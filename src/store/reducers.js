@@ -1,31 +1,61 @@
-import faker from 'faker';
-import { v4 } from 'uuid';
-import { times } from 'lodash';
+import { omit } from 'lodash';
 import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 import * as actions from './actions';
 
-const _todos1 = times(5).map(() => ({
-  id: v4(),
-  title: faker.company.catchPhrase(),
-  starred: false,
-  completedAt: null,
-  createAt: Date.now(),
-  updateAt: Date.now(),
-}));
+export default combineReducers({
+  lists: handleActions({
+    [actions.saveList]: (state, { payload }) => payload,
+  }, []),
 
-const _todos2 = times(2).map(() => ({
-  id: v4(),
-  title: faker.company.catchPhrase(),
-  starred: false,
-  completedAt: Date.now(),
-  createAt: Date.now(),
-  updateAt: Date.now(),
-}));
+  listsLen: handleActions({
+    [actions.createTodo]: (state, { payload: { listId } }) => ({
+      ...state,
+      [listId]: (state[listId] || 0) + 1,
+    }),
+    [actions.removeTodo]: (state, { payload: { listId } }) => ({
+      ...state,
+      [listId]: state[listId] - 1,
+    }),
+    [actions.toggleCompleted]: (state, { payload: { completedAt, listId } }) => ({
+      ...state,
+      [listId]: completedAt ? state[listId] + 1 : state[listId] - 1,
+    }),
+  }, {}),
 
-const todos = handleActions({
-  [actions.addToCache]: state => state,
-  [actions.removeFromCache]: (state, { payload }) => payload,
-}, _todos1.concat(_todos2));
+  selectedListId: handleActions({
+    [actions.changeList]: (state, { payload }) => payload,
+  }, 'inbox'),
 
-export default combineReducers({ todos });
+  todos: handleActions({
+    [actions.createTodo]: (state, { payload }) => ({ ...state, [payload.id]: payload }),
+    [actions.editTodo]: (state, { payload }) => ({ ...state, [payload.id]: payload }),
+    [actions.removeTodo]: (state, { payload }) => omit(state, payload.id),
+    [actions.toggleCompleted]: (state, { payload }) => ({
+      ...state,
+      [payload.id]: {
+        ...payload,
+        completedAt: payload.completedAt ? null : Date.now(),
+      },
+    }),
+    [actions.toggleStarred]: (state, { payload }) => ({
+      ...state,
+      [payload.id]: {
+        ...payload,
+        starred: !payload.starred,
+      },
+    }),
+  }, {}),
+
+  todoIdsInList: handleActions({
+    [actions.createTodo]: (state, { payload: { id, listId } }) => ({
+      ...state,
+      [listId]: state[listId].indexOf(id) === -1 ?
+        state[listId].concat([id]) : state[listId],
+    }),
+    [actions.removeTodo]: (state, { payload: { id, listId } }) => ({
+      ...state,
+      [listId]: state[listId].filter(tid => tid !== id),
+    }),
+  }, { inbox: [] }),
+});

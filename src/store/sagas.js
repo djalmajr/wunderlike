@@ -1,15 +1,15 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { takeEvery } from 'redux-saga/effects';
 import * as actions from './actions';
 
-function* handleClearMessage() {
-  yield put(actions.notifySuccess('Message cleared from cache'));
+function* handleCreateTodo() {
+  // yield put(actions.notifySuccess('Todo saved to cache'));
 }
 
-function* handleSaveMessage() {
-  yield put(actions.notifySuccess('Message saved to cache'));
+function* handleRemoveTodo() {
+  // yield put(actions.notifySuccess('Todo cleared from cache'));
 }
 
 export default function* () {
-  yield takeEvery(actions.clearMessage.toString(), handleClearMessage);
-  yield takeEvery(actions.saveMessage.toString(), handleSaveMessage);
+  yield takeEvery(actions.createTodo.toString(), handleCreateTodo);
+  yield takeEvery(actions.removeTodo.toString(), handleRemoveTodo);
 }
