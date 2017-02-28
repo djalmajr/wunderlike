@@ -2,7 +2,8 @@ import React from 'react';
 
 const App = () => (
   <div>
-    <h2>Hello World!</h2>
+  	<div>Sidebar</div>
+  	<div>lista</div>
   </div>
 );
 
