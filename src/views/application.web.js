@@ -2,8 +2,8 @@ import React from 'react';
 
 const App = () => (
   <div>
-  	<div>Sidebar</div>
-  	<div>lista</div>
+    <div className="side">Sidebar</div>
+    <div>lista</div>
   </div>
 );
 
