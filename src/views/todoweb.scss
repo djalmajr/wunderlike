@@ -29,7 +29,8 @@ i.icon {
     padding-right: 0.5em;
     padding-left: 0.5em;
 
-    &:hover {
+    &:hover,
+    &.sidebarItemActive {
         background-color: #efefef;
     }
 
@@ -38,7 +39,7 @@ i.icon {
     }
 
     .listIcon {
-        opacity: 0.3;
+        opacity: 0.4;
     }
 
     .listCounter {
@@ -47,11 +48,28 @@ i.icon {
         padding-left: 0.5em;
         padding-right: 0.5em;
     }
+
+    .deleteListItemIcon {
+        &:hover {
+            color: #72aee8;
+            opacity: 1;
+        }
+    }
+
+    .listInput {
+        width: 100%;
+        background: transparent;
+        height: 100%;
+        border: 0;
+        outline: none;
+        padding: 0 0.7em;
+        color: #333;
+    }
 }
 
 .footerSidebarList .sideActionTitle,
 .listTitle {
-    // height: 1.4em;
+    height: 100%;
     font-size: 1.1em;
     padding-left: 0.4em;
     padding-right: 0.4em;
