@@ -35,7 +35,8 @@ const Menu = ({ style, listItemSelected, isCreatingList, ...props }) => {
           ))}
         </ul>
       </section>
-      <footer className={`sidebar-actions ${style.footerSidebarList} ${style.flex} ${style.flexJustifyBetween} ${style.flexAlignItemsCenter}`}>
+      <footer className={`${style.sidebarActions} ${style.footerSidebarList} ${style.flex} ${style.flexJustifyBetween} ${style.flexAlignItemsCenter}`}>
+        {console.log("style", style)}
         {isCreatingList ?
           (<a
             href="#/create/list"
@@ -53,7 +54,12 @@ const Menu = ({ style, listItemSelected, isCreatingList, ...props }) => {
           </a>)
           :
           (
-            <input className={`${style.clearAppearance}`} />
+            <div className={`${style.flex} ${style.flex1}`}>
+              <input type="text" className={`${style.clearAppearance} ${style.flex} ${style.flex1}`} />
+              <a href="#/create/list" className={`${style.linkSideActionSave} ${style.flex} ${style.flexAlignItemsCenter}`}>
+                <i className={`plus icon ${style.sideActionIcon}`} />
+              </a>
+            </div>
           )
         }
       </footer>

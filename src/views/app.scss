@@ -56,7 +56,8 @@ header {
     height: 3.2em;
 }
 
-input[type="text"].clearAppearance {
+.clearAppearance {
+	border: 1px solid silver;
 	-webkit-webkit-appearance: none;
     -moz-webkit-appearance: none;
     -ms-webkit-appearance: none;

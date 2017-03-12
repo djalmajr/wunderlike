@@ -112,6 +112,7 @@ class MenuItem extends Component {
         {isSelected &&
           <a
             href="#/list/delete/{id}"
+            title="Deletar Lista"
             className={`${style.flex} ${style.flexJustifyBetween} ${style.flexAlignItemsCenter}`}
             onClick={() => handleDeleteItemMenu(id)}
           >
