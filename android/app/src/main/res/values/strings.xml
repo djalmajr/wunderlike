@@ -1,4 +1,4 @@
 <resources>
-    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">y3GJbAHJ10urPACrRAlrpuZmEKtDVJmipjXsM</string>
-    <string name="app_name">wunderlike</string>
+  <string name="app_name">Wunderlike</string>
+  <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">y3GJbAHJ10urPACrRAlrpuZmEKtDVJmipjXsM</string>
 </resources>

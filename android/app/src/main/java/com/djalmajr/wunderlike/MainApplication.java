@@ -1,4 +1,4 @@
-package com.wunderlike;
+package com.djalmajr.wunderlike;
 
 import android.app.Application;
 import android.util.Log;
