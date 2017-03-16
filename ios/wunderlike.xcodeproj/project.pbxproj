@@ -73,6 +73,8 @@
 		73024E1931C444D8945DCE20 /* SanFranciscoBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D684AEEAEBC406A8A064440 /* SanFranciscoBold.ttf */; };
 		37B7BE4FC64344178D646907 /* SanFranciscoThin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F659675123D2484D8DBF766B /* SanFranciscoThin.ttf */; };
 		F3D7DA0406924DA4AB244ABE /* libLRDRCTSimpleToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98DB7829F6BA4F8A93BBC959 /* libLRDRCTSimpleToast.a */; };
+		82165157D5874EA2BA42E72A /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9A0CF0416B6469C9C35A0ED /* libCodePush.a */; };
+		38DB260B20904764B09D56AD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1690AF07E77242D29BDBB2FE /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -332,6 +334,9 @@
 		F659675123D2484D8DBF766B /* SanFranciscoThin.ttf */ = {isa = PBXFileReference; name = "SanFranciscoThin.ttf"; path = "../node_modules/native-base/Fonts/SanFranciscoThin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		8BB132B8D5B9434E9350B8D6 /* LRDRCTSimpleToast.xcodeproj */ = {isa = PBXFileReference; name = "LRDRCTSimpleToast.xcodeproj"; path = "../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		98DB7829F6BA4F8A93BBC959 /* libLRDRCTSimpleToast.a */ = {isa = PBXFileReference; name = "libLRDRCTSimpleToast.a"; path = "libLRDRCTSimpleToast.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		8E8B809315064A1C8458664F /* CodePush.xcodeproj */ = {isa = PBXFileReference; name = "CodePush.xcodeproj"; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		F9A0CF0416B6469C9C35A0ED /* libCodePush.a */ = {isa = PBXFileReference; name = "libCodePush.a"; path = "libCodePush.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		1690AF07E77242D29BDBB2FE /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,6 +365,8 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				1A6E91796EA449C894BBA037 /* libRNVectorIcons.a in Frameworks */,
 				F3D7DA0406924DA4AB244ABE /* libLRDRCTSimpleToast.a in Frameworks */,
+				82165157D5874EA2BA42E72A /* libCodePush.a in Frameworks */,
+				38DB260B20904764B09D56AD /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +535,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				1209F9375FBF4296B384AA5F /* RNVectorIcons.xcodeproj */,
 				8BB132B8D5B9434E9350B8D6 /* LRDRCTSimpleToast.xcodeproj */,
+				8E8B809315064A1C8458664F /* CodePush.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -549,6 +557,7 @@
 				00E356EF1AD99517003FC87E /* wunderlikeTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				34913465EB714A999C537767 /* Resources */,
+				F5E2278082054B308B328E97 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -606,6 +615,15 @@
 				F659675123D2484D8DBF766B /* SanFranciscoThin.ttf */,
 			);
 			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
+		F5E2278082054B308B328E97 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1690AF07E77242D29BDBB2FE /* libz.tbd */,
+			);
+			name = Frameworks;
 			path = "";
 			sourceTree = "<group>";
 		};
