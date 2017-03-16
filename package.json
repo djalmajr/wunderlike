@@ -1,6 +1,6 @@
 {
   "name": "wunderlike",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "build": "npm run clean && cross-env NODE_ENV=production webpack --config webpack/webpack.prod.config.js --progress",
