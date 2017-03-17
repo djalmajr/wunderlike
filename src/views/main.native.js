@@ -6,6 +6,11 @@ import TodoView from './containers/todo-view';
 
 const initialRoute = { key: 'todo-list' };
 
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.ON_APP_RESUME,
+};
+
 class Main extends Component {
   static childContextTypes = {
     addBackButtonListener: React.PropTypes.func,
@@ -80,4 +85,4 @@ class Main extends Component {
   }
 }
 
-export default codePush(Main);
+export default codePush(codePushOptions)(Main);

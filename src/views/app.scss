@@ -1,0 +1,66 @@
+body {
+	background-color: #efefef;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffa84c+0,ff933a+100&0.5+0,0.59+100 */
+	background: -moz-radial-gradient(center, ellipse cover, rgba(255,168,76,0.5) 0%, rgba(255,147,58,0.59) 100%); /* FF3.6-15 */
+	background: -webkit-radial-gradient(center, ellipse cover, rgba(255,168,76,0.5) 0%,rgba(255,147,58,0.59) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: radial-gradient(ellipse at center, rgba(255,168,76,0.5) 0%,rgba(255,147,58,0.59) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80ffa84c', endColorstr='#96ff933a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	background-image: url("http://study.today/files/cities/566344_1680x1050_kopiya-9e51eaad9e1d8d7313f5402cf31a9054.jpg");
+
+}
+* {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	color: #333;
+
+	-webkit-transition: all 0.25s ease;
+    -moz-transition: all 0.25s ease;
+    -o-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex1 {
+	flex: 1;
+}
+
+.flex2 {
+	flex: 2;
+}
+
+.flexJustifyBetween {
+	justify-content: space-between;
+}
+
+.flexJustifyAround {
+	justify-content: space-around;
+}
+
+.flexAlignItemsCenter {
+	align-items: center;
+}
+
+.flexCol {
+	flex-direction: column;
+}
+
+.flexRow {
+	flex-direction: row;
+}
+
+header {
+    height: 3.2em;
+}
+
+.clearAppearance {
+	border: 1px solid silver;
+	-webkit-webkit-appearance: none;
+    -moz-webkit-appearance: none;
+    -ms-webkit-appearance: none;
+    -o-webkit-appearance: none;
+    appearance: none;
+}
