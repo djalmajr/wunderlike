@@ -1,6 +1,7 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
-import { Body, Button, Container, Content, Header, Left, Right, Title } from 'native-base';
+import { View } from 'react-native';
+import { Body, Button, Container, Header, Left, Right, Title } from 'native-base';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
 const size = 50;
@@ -11,6 +12,9 @@ const styles = {
     justifyContent: 'center',
     height: size,
     width: size,
+  },
+  content: {
+    flex: 1,
   },
   header: {
     backgroundColor: '#668964',
@@ -43,9 +47,9 @@ const ContainerWithHeader = ({ actionButtons, children, icon, title, onIconPress
         </Right>
       )}
     </Header>
-    <Content>
+    <View style={styles.content}>
       {children}
-    </Content>
+    </View>
   </Container>
 );
 

@@ -40,9 +40,17 @@ class TodosContainer extends Component {
     }
   }
 
-  handleDelete = (todo) => {
+  handleItemPress = (id) => {
+    const { navigator } = this.props;
+
+    navigator.push({ key: 'todo-view', payload: { id } });
+  };
+
+  handleItemRemove = (todo) => {
     const type = todo.completedAt ? 'completedIds' : 'uncompletedIds';
     const newState = { [type]: this.props[type].filter(tid => tid !== todo.id) };
+
+    console.log(this.state, newState);
 
     this.setState(newState, () => {
       const message = `"${todo.title}" será excluído permanentemente.`;
@@ -64,7 +72,8 @@ class TodosContainer extends Component {
   handleSortPress = () => {};
 
   render() {
-    const { completedIds, uncompletedIds, navigator, route } = this.props;
+    const { navigator, route } = this.props;
+    const { completedIds, uncompletedIds } = this.state;
     const actionButtons = [
       {
         iconComponent: MdIcon,
@@ -94,7 +103,13 @@ class TodosContainer extends Component {
             completedIds={completedIds}
             uncompletedIds={uncompletedIds}
             renderInput={() => <Input />}
-            renderItem={id => <Item id={id} onRemove={this.handleDelete} />}
+            renderItem={id => (
+              <Item
+                id={id}
+                onPress={this.handleItemPress}
+                onRemove={this.handleItemRemove}
+              />
+            )}
           />
         </Container>
       </Drawer>

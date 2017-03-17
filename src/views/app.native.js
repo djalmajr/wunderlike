@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { Provider } from 'react-redux';
-import codePush from 'react-native-code-push';
 import configureStore from '../store/configure-store';
 import Main from './main';
 
@@ -15,4 +14,4 @@ const App = () => (
   </Provider>
 );
 
-export default codePush(App);
+export default App;

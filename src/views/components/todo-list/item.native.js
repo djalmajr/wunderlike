@@ -67,7 +67,7 @@ const styles = {
 class TodoItem extends Component {
   static propTypes = {
     todo: React.PropTypes.object.isRequired,
-    // onPress: React.PropTypes.func.isRequired,
+    onPress: React.PropTypes.func.isRequired,
     onRemove: React.PropTypes.func.isRequired,
     onToggleCompleted: React.PropTypes.func.isRequired,
     onToggleStarred: React.PropTypes.func.isRequired,
@@ -90,10 +90,7 @@ class TodoItem extends Component {
   };
 
   handlePress = () => {
-    console.log(this.props.todo.id);
-    // if (this.props.todo.id === store.openId) { return store.setOpenId(null); }
-
-    // this.props.onPress(this.props.todo);
+    this.props.onPress(this.props.todo.id);
   };
 
   handleSwipe = () => {
@@ -107,9 +104,8 @@ class TodoItem extends Component {
     return (
       <SwipeableRow
         isOpen={false}
-        maxSwipeDistance={0}
         shouldBounceOnMount={false}
-        swipeThreshold={width / 3}
+        swipeThreshold={width / 10}
         slideoutView={<View />}
         onOpen={this.handleSwipe}
       >

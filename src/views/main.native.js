@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { BackAndroid, Navigator } from 'react-native';
-import Todos from './containers/todos';
+import codePush from 'react-native-code-push';
+import TodoList from './containers/todo-list';
+import TodoView from './containers/todo-view';
 
-const initialRoute = { key: 'todos' };
+const initialRoute = { key: 'todo-list' };
 
 class Main extends Component {
   static childContextTypes = {
@@ -51,16 +53,31 @@ class Main extends Component {
 
   handlers = [];
 
+  renderScene = (route, navigator) => {
+    let component;
+
+    switch (route.key) {
+      case 'todo-view':
+        component = TodoView;
+        break;
+
+      default:
+        component = TodoList;
+    }
+
+    return React.createElement(component, { route, navigator });
+  };
+
   render() {
     return (
       <Navigator
         ref={el => (this.navigator = el)}
         initialRoute={initialRoute}
-        renderScene={(r, nav) => <Todos route={r} navigator={nav} />}
+        renderScene={this.renderScene}
         configureScene={() => Navigator.SceneConfigs.PushFromRight}
       />
     );
   }
 }
 
-export default Main;
+export default codePush(Main);

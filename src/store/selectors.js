@@ -13,7 +13,7 @@ export const getListsLen = getState('listsLen');
 export const getTodos = getState('todos');
 export const getSelectedListId = getState('selectedListId');
 export const getTodoIdsInList = getState('todoIdsInList');
-export const getTodoById = todoId => getState(`todos.${todoId}`);
+export const getTodoById = id => getState(`todos.${id}`);
 
 export const getTodoIdsByListId = curry(
   (listId, state) => getTodoIdsInList(state)[listId],
